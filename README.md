@@ -23,6 +23,7 @@
     ```
 
 ## 第二步 开始您的开发之旅
+- 调用
 
     ```
     static void Main(string[] args)
