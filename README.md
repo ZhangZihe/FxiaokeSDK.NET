@@ -9,8 +9,8 @@
     ```
     <appSettings>
       <add key="fxiaoke_appid" value="FSAID_1317cde" />
-      <add key="fxiaoke_appsecret"     value="1909c5c548244d36bdc93c6d293e4f8b" />
-      <add key="fxiaoke_apppermanentcode"     value="6FE4EAB36C49B0D8EFD57B18261932D4" />
+      <add key="fxiaoke_appsecret" value="1909c5c548244d36bdc93c6d293e4f8b" />
+      <add key="fxiaoke_apppermanentcode" value="6FE4EAB36C49B0D8EFD57B18261932D4" />
     </appSettings>
     ```
  
@@ -26,12 +26,6 @@
 - 调用
 
     ```
-    static void Main(string[] args)
-    {
-        var client = new FxiaokeClient();
-        var result = client.Execute(new CorpAccessTokenGetRequest()).Result;
-    
-        System.Console.WriteLine(JsonConvert.SerializeObject(result));
-        System.Console.ReadLine();
-    }
+    var client = new FxiaokeClient();
+    var result = client.Execute(new CorpAccessTokenGetRequest()).Result;
     ```
