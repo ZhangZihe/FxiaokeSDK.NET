@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FxiaokeSDK.Request;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,11 @@ namespace FxiaokeSDK.Console
     {
         static void Main(string[] args)
         {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CorpAccessTokenGetRequest()).Result;
+
+            System.Console.WriteLine(JsonConvert.SerializeObject(result));
+            System.Console.ReadLine();
         }
     }
 }
