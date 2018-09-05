@@ -11,16 +11,16 @@ namespace FxiaokeSDK.Response
         /// <summary>
         /// 企业应用访问公司合法性凭证
         /// </summary>
-        public string corpAccessToken { get; set; }
+        public string CorpAccessToken { get; set; }
 
         /// <summary>
         /// 开放平台派发的公司帐号
         /// </summary>
-        public string corpId { get; set; }
+        public string CorpId { get; set; }
 
         /// <summary>
         /// 企业应用访问公司合法性凭证的过期时间，单位为秒，取值在0~7200之间
         /// </summary>
-        public int expiresIn { get; set; }
+        public int ExpiresIn { get; set; }
     }
 }

@@ -35,8 +35,8 @@ namespace FxiaokeSDK.Test
 
             var result2 = await client.Execute(new CrmDataQueryV2Request
             {
-                CorpAccessToken = result.Response.corpAccessToken,
-                CorpId = result.Response.corpId,
+                CorpAccessToken = result.Response.CorpAccessToken,
+                CorpId = result.Response.CorpId,
                 CurrentOpenUserId = result1.Response.OpenUserId,
                 Data = new CrmDataQueryV2Request.CrmDataQueryData
                 {
