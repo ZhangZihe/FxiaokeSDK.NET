@@ -17,5 +17,10 @@ namespace FxiaokeSDK.Response
         /// 对返回码的文本描述内容
         /// </summary>
         public string ErrorMessage { get; set; }
+
+        /// <summary>
+        /// 对返回码的文本描述内容(中文)
+        /// </summary>
+        public string ErrorDescription { get; set; }
     }
 }

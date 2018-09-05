@@ -49,7 +49,7 @@ namespace FxiaokeSDK
                 return new ApiResult<TResponse>
                 {
                     Success = obj?.ErrorCode == 0,
-                    Message = obj?.ErrorMessage ?? "发生未知异常",
+                    Message = obj?.ErrorDescription ?? obj?.ErrorMessage ?? "发生未知异常",
                     ErrorCode = obj?.ErrorCode ?? 88888,
                     Response = obj,
                     OriginalResponse = result,

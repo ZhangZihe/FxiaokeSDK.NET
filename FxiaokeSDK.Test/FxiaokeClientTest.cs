@@ -17,12 +17,33 @@ namespace FxiaokeSDK.Test
         }
 
         [TestMethod]
-        public async Task CorpAccessTokenGet()
+        public async Task CrmDataQueryV2()
         {
             var client = new FxiaokeClient();
             var result = await client.Execute(new CorpAccessTokenGetRequest());
-
             Assert.IsTrue(result.Success, result.Message);
+
+            var result0 = await client.Execute(new AppAccessTokenGetRequest());
+            Assert.IsTrue(result0.Success, result0.Message);
+
+            var result1 = await client.Execute(new Oauth2OpenUserIdGetRequest
+            {
+                AppAccessToken = result0.Response.AppAccessToken,
+                Code = "FSCOD_6FAC39BB21D80467AF4616740C867228",
+            });
+            Assert.IsTrue(result1.Success, result1.Message);
+
+            var result2 = await client.Execute(new CrmDataQueryV2Request
+            {
+                CorpAccessToken = result.Response.corpAccessToken,
+                CorpId = result.Response.corpId,
+                CurrentOpenUserId = result1.Response.OpenUserId,
+                Data = new CrmDataQueryV2Request.CrmDataQueryData
+                {
+                    DataObjectApiName = "PriceBookObj",
+                }
+            });
+            Assert.IsTrue(result2.Success, result2.Message);
         }
     }
 }
