@@ -34,7 +34,7 @@ namespace FxiaokeSDK.Response
             /// <summary>
             /// 数据列表
             /// </summary>
-            public JObject DataList { get; set; }
+            public List<JObject> DataList { get; set; }
         }
     }
 }
