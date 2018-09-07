@@ -12,42 +12,42 @@ namespace FxiaokeSDK
     {
         #region 授权/身份验证
 
-        public Task<ApiResult<CorpAccessTokenGetResponse>> Execute(CorpAccessTokenGetRequest request)
+        public ApiResult<CorpAccessTokenGetResponse> Execute(CorpAccessTokenGetRequest request)
         {
             return Execute<CorpAccessTokenGetRequest, CorpAccessTokenGetResponse>("/cgi/corpAccessToken/get/V2", request);
         }
 
-        public Task<ApiResult<AppAccessTokenGetResponse>> Execute(AppAccessTokenGetRequest request)
+        public ApiResult<AppAccessTokenGetResponse> Execute(AppAccessTokenGetRequest request)
         {
             return Execute<AppAccessTokenGetRequest, AppAccessTokenGetResponse>("/cgi/appAccessToken/get", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(Oauth2AccountBindRequest request)
+        public ApiResult<BaseResponse> Execute(Oauth2AccountBindRequest request)
         {
             return Execute<Oauth2AccountBindRequest, BaseResponse>("/oauth2/accountBind", request);
         }
 
-        public Task<ApiResult<Oauth2OpenUserIdGetRespnose>> Execute(Oauth2OpenUserIdGetRequest request)
+        public ApiResult<Oauth2OpenUserIdGetRespnose> Execute(Oauth2OpenUserIdGetRequest request)
         {
             return Execute<Oauth2OpenUserIdGetRequest, Oauth2OpenUserIdGetRespnose>("/oauth2/openUserId/get", request);
         }
 
-        public Task<ApiResult<UnidGetResponse>> Execute(UnidGetRequest request)
+        public ApiResult<UnidGetResponse> Execute(UnidGetRequest request)
         {
             return Execute<UnidGetRequest, UnidGetResponse>("/cgi/unid/get", request);
         }
 
-        public Task<ApiResult<UnidBatchGetResponse>> Execute(UnidBatchGetRequest request)
+        public ApiResult<UnidBatchGetResponse> Execute(UnidBatchGetRequest request)
         {
             return Execute<UnidBatchGetRequest, UnidBatchGetResponse>("/cgi/unid/batch/get", request);
         }
 
-        public Task<ApiResult<OpenIdGetResponse>> Execute(OpenIdGetRequest request)
+        public ApiResult<OpenIdGetResponse> Execute(OpenIdGetRequest request)
         {
             return Execute<OpenIdGetRequest, OpenIdGetResponse>("/cgi/openId/get", request);
         }
 
-        public Task<ApiResult<OpenIdBatchGetResponse>> Execute(OpenIdBatchGetRequest request)
+        public ApiResult<OpenIdBatchGetResponse> Execute(OpenIdBatchGetRequest request)
         {
             return Execute<OpenIdBatchGetRequest, OpenIdBatchGetResponse>("/cgi/openId/batch/get", request);
         }
@@ -57,7 +57,7 @@ namespace FxiaokeSDK
 
         #region 通讯录管理 - 获取部门列表
 
-        public Task<ApiResult<DepartmentListResponse>> Execute(BaseCgiRequest request)
+        public ApiResult<DepartmentListResponse> Execute(BaseCgiRequest request)
         {
             return Execute<BaseCgiRequest, DepartmentListResponse>("/cgi/department/list", request);
         }
@@ -67,56 +67,56 @@ namespace FxiaokeSDK
 
         #region CRM - CRM基础接口
 
-        public Task<ApiResult<CrmCountryAreaOptionsGetResponse>> Execute(CrmCountryAreaOptionsGetRequest request)
+        public ApiResult<CrmCountryAreaOptionsGetResponse> Execute(CrmCountryAreaOptionsGetRequest request)
         {
             return Execute<CrmCountryAreaOptionsGetRequest, CrmCountryAreaOptionsGetResponse>("/cgi/crm/countryAreaOptions/get", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataChangeOwnerRequest request)
+        public ApiResult<BaseResponse> Execute(CrmDataChangeOwnerRequest request)
         {
             return Execute<CrmDataChangeOwnerRequest, BaseResponse>("/crm/data/changeOwner", request);
         }
 
-        public Task<ApiResult<CrmDataCreateResponse>> Execute(CrmDataCreateRequest request)
+        public ApiResult<CrmDataCreateResponse> Execute(CrmDataCreateRequest request)
         {
             return Execute<CrmDataCreateRequest, CrmDataCreateResponse>("/cgi/crm/data/create", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataDeleteRequest request)
+        public ApiResult<BaseResponse> Execute(CrmDataDeleteRequest request)
         {
             return Execute<CrmDataDeleteRequest, BaseResponse>("/cgi/crm/data/delete", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataDropRequest request)
+        public ApiResult<BaseResponse> Execute(CrmDataDropRequest request)
         {
             return Execute<CrmDataDropRequest, BaseResponse>("/cgi/crm/data/drop", request);
         }
 
-        public Task<ApiResult<CrmDataGetResponse>> Execute(CrmDataGetRequest request)
+        public ApiResult<CrmDataGetResponse> Execute(CrmDataGetRequest request)
         {
             return Execute<CrmDataGetRequest, CrmDataGetResponse>("/cgi/crm/countryAreaOptions/get", request);
         }
-        public Task<ApiResult<CrmDataQueryResponse>> Execute(CrmDataQueryRequest request)
+        public ApiResult<CrmDataQueryResponse> Execute(CrmDataQueryRequest request)
         {
             return Execute<CrmDataQueryRequest, CrmDataQueryResponse>("/cgi/crm/data/query", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataRecoverRequest request)
+        public ApiResult<BaseResponse> Execute(CrmDataRecoverRequest request)
         {
             return Execute<CrmDataRecoverRequest, BaseResponse>("/cgi/crm/data/recover", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataUpdateRequest request)
+        public ApiResult<BaseResponse> Execute(CrmDataUpdateRequest request)
         {
             return Execute<CrmDataUpdateRequest, BaseResponse>("/cgi/crm/data/update", request);
         }
 
-        public Task<ApiResult<CrmObjectDescribeResponse>> Execute(CrmObjectDescribeRequest request)
+        public ApiResult<CrmObjectDescribeResponse> Execute(CrmObjectDescribeRequest request)
         {
             return Execute<CrmObjectDescribeRequest, CrmObjectDescribeResponse>("/cgi/crm/object/describe", request);
         }
 
-        public Task<ApiResult<CrmObjectListResponse>> Execute(CrmObjectListRequest request)
+        public ApiResult<CrmObjectListResponse> Execute(CrmObjectListRequest request)
         {
             return Execute<CrmObjectListRequest, CrmObjectListResponse>("/cgi/crm/object/list", request);
         }
@@ -126,42 +126,42 @@ namespace FxiaokeSDK
 
         #region CRM - CRM基础接口V2
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataCreateV2Request request)
+        public ApiResult<BaseResponse> Execute(CrmDataCreateV2Request request)
         {
             return Execute<CrmDataCreateV2Request, BaseResponse>("/cgi/crm/v2/data/create", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataUpdateV2Request request)
+        public ApiResult<BaseResponse> Execute(CrmDataUpdateV2Request request)
         {
             return Execute<CrmDataUpdateV2Request, BaseResponse>("/cgi/crm/v2/data/update", request);
         }
 
-        public Task<ApiResult<CrmDataQueryV2Response>> Execute(CrmDataQueryV2Request request)
+        public ApiResult<CrmDataQueryV2Response> Execute(CrmDataQueryV2Request request)
         {
             return Execute<CrmDataQueryV2Request, CrmDataQueryV2Response>("/cgi/crm/v2/data/query", request);
         }
 
-        public Task<ApiResult<CrmDataGetV2Response>> Execute(CrmDataGetV2Request request)
+        public ApiResult<CrmDataGetV2Response> Execute(CrmDataGetV2Request request)
         {
             return Execute<CrmDataGetV2Request, CrmDataGetV2Response>("/cgi/crm/v2/data/get", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataInvalidV2Request request)
+        public ApiResult<BaseResponse> Execute(CrmDataInvalidV2Request request)
         {
             return Execute<CrmDataInvalidV2Request, BaseResponse>("/cgi/crm/v2/data/invalid", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataRecoverV2Request request)
+        public ApiResult<BaseResponse> Execute(CrmDataRecoverV2Request request)
         {
             return Execute<CrmDataRecoverV2Request, BaseResponse>("/cgi/crm/v2/data/recover", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataDeleteV2Request request)
+        public ApiResult<BaseResponse> Execute(CrmDataDeleteV2Request request)
         {
             return Execute<CrmDataDeleteV2Request, BaseResponse>("/cgi/crm/v2/data/delete", request);
         }
 
-        public Task<ApiResult<BaseResponse>> Execute(CrmDataChangeOwnerV2Request request)
+        public ApiResult<BaseResponse> Execute(CrmDataChangeOwnerV2Request request)
         {
             return Execute<CrmDataChangeOwnerV2Request, BaseResponse>("/cgi/crm/v2/data/changeOwner", request);
         }

@@ -16,7 +16,7 @@ namespace FxiaokeSDK
 
         public HttpWebResponse Response { get; private set; }
 
-        public async Task<ApiResult<TResponse>> Execute<TRequest, TResponse>(string api, TRequest request) where TResponse : BaseResponse
+        public ApiResult<TResponse> Execute<TRequest, TResponse>(string api, TRequest request) where TResponse : BaseResponse
         {
             Request = null;
             Response = null;
@@ -34,7 +34,7 @@ namespace FxiaokeSDK
 
             try
             {
-                Response = (await Request.GetResponseAsync()).AsHttpWebResponse();
+                Response = Request.GetResponse().AsHttpWebResponse();
                 if (Response.StatusCode != HttpStatusCode.OK)
                 {
                     return new ApiResult<TResponse>

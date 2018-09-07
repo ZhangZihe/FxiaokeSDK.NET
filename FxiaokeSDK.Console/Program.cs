@@ -13,7 +13,7 @@ namespace FxiaokeSDK.Console
         static void Main(string[] args)
         {
             var client = new FxiaokeClient();
-            var result = client.Execute(new CorpAccessTokenGetRequest()).Result;
+            var result = client.Execute(new CorpAccessTokenGetRequest());
 
             System.Console.WriteLine(JsonConvert.SerializeObject(result));
             System.Console.ReadLine();
