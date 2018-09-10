@@ -62,6 +62,11 @@ namespace FxiaokeSDK
             return Execute<BaseCgiRequest, DepartmentListResponse>("/cgi/department/list", request);
         }
 
+        public ApiResult<UserSimpleListResponse> Execute(UserSimpleListRequest request)
+        {
+            return Execute<UserSimpleListRequest, UserSimpleListResponse>("/cgi/user/simpleList", request);
+        }
+
         #endregion
 
 

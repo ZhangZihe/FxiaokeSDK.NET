@@ -9,11 +9,6 @@ namespace FxiaokeSDK.Request
     public class CrmDataUpdateV2Request : BaseCgiRequest
     {
         /// <summary>
-        /// 开放平台公司账号
-        /// </summary>
-        public string CorpId { get; set; }
-
-        /// <summary>
         /// 当前操作人的openUserId
         /// </summary>
         public string CurrentOpenUserId { get; set; }

@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\FxiaokeSDK.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,12 +72,14 @@
     <Compile Include="Request\CrmDataDeleteV2Request.cs" />
     <Compile Include="Request\CrmDataRecoverV2Request.cs" />
     <Compile Include="Request\CrmDataUpdateV2Request.cs" />
+    <Compile Include="Request\DepartmentListRequest.cs" />
     <Compile Include="Request\Oauth2AccountBindRequest.cs" />
     <Compile Include="Request\Oauth2OpenUserIdGetRequest.cs" />
     <Compile Include="Request\OpenIdBatchGetRequest.cs" />
     <Compile Include="Request\OpenIdGetRequest.cs" />
     <Compile Include="Request\UnidBatchGetRequest.cs" />
     <Compile Include="Request\UnidGetRequest.cs" />
+    <Compile Include="Request\UserSimpleListRequest.cs" />
     <Compile Include="Response\AppAccessTokenGetResponse.cs" />
     <Compile Include="Response\CrmDataGetResponse.cs" />
     <Compile Include="Request\CrmDataQueryRequest.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Response\OpenIdGetResponse.cs" />
     <Compile Include="Response\UnidBatchGetResponse.cs" />
     <Compile Include="Response\UnidGetResponse.cs" />
+    <Compile Include="Response\UserSimpleListResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

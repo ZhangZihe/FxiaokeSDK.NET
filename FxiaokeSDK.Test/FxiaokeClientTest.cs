@@ -8,42 +8,71 @@ namespace FxiaokeSDK.Test
     [TestClass]
     public class FxiaokeClientTest
     {
+        private string AppAccessToken { get; set; }
+
+        private string CorpAccessToken { get; set; }
+
+        private string CorpId { get; set; }
+
         [TestInitialize]
         public void Setup()
         {
-            FxiaokeConfig.AppId = "FSAID_1317cde";
-            FxiaokeConfig.AppSecret = "1909c5c548244d36bdc93c6d293e4f8b";
-            FxiaokeConfig.PermanentCode = "6FE4EAB36C49B0D8EFD57B18261932D4";
+            FxiaokeConfig.AppId = "FSAID_1317d08";
+            FxiaokeConfig.AppSecret = "b2b75ca5885c47a18cc7724458b56c5c";
+            FxiaokeConfig.PermanentCode = "1E1D1E3108E008A52EB7EBACB2779A28";
+
+            var client = new FxiaokeClient();
+            var result0 = client.Execute(new CorpAccessTokenGetRequest());
+            Assert.IsTrue(result0.Success, result0.Message);
+
+            var result1 = client.Execute(new AppAccessTokenGetRequest());
+            Assert.IsTrue(result1.Success, result1.Message);
+
+            AppAccessToken = result1.Response.AppAccessToken;
+            CorpAccessToken = result0.Response.CorpAccessToken;
+            CorpId = result0.Response.CorpId;
         }
 
         [TestMethod]
-        public void CrmDataQueryV2()
+        public void CrmDataQueryV2Test()
         {
             var client = new FxiaokeClient();
-            var result = client.Execute(new CorpAccessTokenGetRequest());
-            Assert.IsTrue(result.Success, result.Message);
-
-            var result0 = client.Execute(new AppAccessTokenGetRequest());
-            Assert.IsTrue(result0.Success, result0.Message);
-
-            var result1 = client.Execute(new Oauth2OpenUserIdGetRequest
+            var result = client.Execute(new CrmDataQueryV2Request
             {
-                AppAccessToken = result0.Response.AppAccessToken,
-                Code = "FSCOD_6FAC39BB21D80467AF4616740C867228",
-            });
-            Assert.IsTrue(result1.Success, result1.Message);
-
-            var result2 = client.Execute(new CrmDataQueryV2Request
-            {
-                CorpAccessToken = result.Response.CorpAccessToken,
-                CorpId = result.Response.CorpId,
-                CurrentOpenUserId = result1.Response.OpenUserId,
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_E52ABBD03C50251FC961C853B4A3C6A5",
                 Data = new CrmDataQueryV2Request.CrmDataQueryData
                 {
                     DataObjectApiName = "PriceBookObj",
                 }
             });
-            Assert.IsTrue(result2.Success, result2.Message);
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void DepartmentListTest()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new DepartmentListRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+            });
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void UserSimpleListTest()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new UserSimpleListRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                DepartmentId = 999999,
+            });
+            Assert.IsTrue(result.Success, result.Message);
         }
     }
 }
