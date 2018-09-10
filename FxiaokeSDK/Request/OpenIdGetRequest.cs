@@ -16,7 +16,7 @@ namespace FxiaokeSDK.Request
         /// <summary>
         /// 开放平台公司账号
         /// </summary>
-        public string CropId { get; set; }
+        public string CorpId { get; set; }
 
         /// <summary>
         /// 用户唯一id
