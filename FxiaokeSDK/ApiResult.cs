@@ -15,6 +15,8 @@ namespace FxiaokeSDK
 
         public string Message { get; set; }
 
+        public string OriginalRequest { get; set; }
+
         public string OriginalResponse { get; set; }
 
         public TResponse Response { get; set; }

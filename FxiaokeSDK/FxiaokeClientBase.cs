@@ -52,6 +52,7 @@ namespace FxiaokeSDK
                     Message = obj?.ErrorDescription ?? obj?.ErrorMessage ?? "发生未知异常",
                     ErrorCode = obj?.ErrorCode ?? 88888,
                     Response = obj,
+                    OriginalRequest = jsonParam,
                     OriginalResponse = result,
                 };
             }
@@ -60,8 +61,9 @@ namespace FxiaokeSDK
                 return new ApiResult<TResponse>
                 {
                     Message = e.Message,
-                    OriginalResponse = e.ToString(),
                     ErrorCode = 99999,
+                    OriginalRequest = jsonParam,
+                    OriginalResponse = e.ToString(),
                 };
             }
         }
