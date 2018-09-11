@@ -27,5 +27,5 @@
 
     ```
     var client = new FxiaokeClient();
-    var result = client.Execute(new CorpAccessTokenGetRequest()).Result;
+    var result = client.Execute(new CorpAccessTokenGetRequest());
     ```
