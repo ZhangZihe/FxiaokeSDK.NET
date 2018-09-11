@@ -1,7 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using FxiaokeSDK.Request;
+﻿using FxiaokeSDK.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FxiaokeSDK.Test
 {
@@ -17,9 +18,9 @@ namespace FxiaokeSDK.Test
         [TestInitialize]
         public void Setup()
         {
-            FxiaokeConfig.AppId = "FSAID_1317d08";
-            FxiaokeConfig.AppSecret = "b2b75ca5885c47a18cc7724458b56c5c";
-            FxiaokeConfig.PermanentCode = "1E1D1E3108E008A52EB7EBACB2779A28";
+            FxiaokeConfig.AppId = "FSAID_1317cf4";
+            FxiaokeConfig.AppSecret = "7faded1267ba492aa3eafe1aae12e86e";
+            FxiaokeConfig.PermanentCode = "4EB0845137A6411E69850DFC5A94BB1E";
 
             var client = new FxiaokeClient();
             var result0 = client.Execute(new CorpAccessTokenGetRequest());
@@ -64,14 +65,33 @@ namespace FxiaokeSDK.Test
 
         [TestMethod]
         public void UserSimpleListTest()
-        {
+        {            
             var client = new FxiaokeClient();
-            var result = client.Execute(new UserSimpleListRequest
+            var request = new CrmDataQueryRequest()
             {
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
-                DepartmentId = 999999,
-            });
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                ApiName = "SalesOrderObj",
+                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                {
+                    Offset = 0,
+                    Limit = 1000,
+                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    {
+                        new CrmDataQueryRequest.CrmDataCondition()
+                        {                         
+                            Conditions = new JObject
+                            {
+                                ["UDSText1__c"] = "987654321"
+                            }
+                        }
+                    }
+                }
+
+            };
+            var json = JsonConvert.SerializeObject(request);
+            var result = client.Execute(request);
             Assert.IsTrue(result.Success, result.Message);
         }
     }

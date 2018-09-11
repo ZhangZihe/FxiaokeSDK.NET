@@ -13,6 +13,8 @@ namespace FxiaokeSDK.Request
         /// </summary>
         public string CorpId { get; set; }
 
+
+        public string CorpAccessToken { get; set; }
         /// <summary>
         /// 当前操作人的openUserId
         /// </summary>
@@ -24,20 +26,19 @@ namespace FxiaokeSDK.Request
         public string ApiName { get; set; }
 
         public CrmDataSearchQuery SearchQuery { get; set; }
-
-        /// <summary>
-        /// 获取数据条数,默认20,最大值为1000(自定义对象最大值为100)
-        /// </summary>
-        public int Limit { get; set; }
-
-        /// <summary>
-        /// 偏移量，从0开始、数值必须为limit的整数倍
-        /// </summary>
-        public int Offset { get; set; }
-        
+               
 
         public class CrmDataSearchQuery
         {
+            /// <summary>
+            /// 获取数据条数,默认20,最大值为1000(自定义对象最大值为100)
+            /// </summary>
+            public int Limit { get; set; }
+
+            /// <summary>
+            /// 偏移量，从0开始、数值必须为limit的整数倍
+            /// </summary>
+            public int Offset { get; set; }
             /// <summary>
             /// 过滤条件列表
             /// </summary>
