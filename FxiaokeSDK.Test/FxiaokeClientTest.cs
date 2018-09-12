@@ -81,8 +81,22 @@ namespace FxiaokeSDK.Test
             Assert.IsTrue(result.Success, result.Message);
         }
 
+
         [TestMethod]
         public void UserSimpleListTest()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new UserSimpleListRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                DepartmentId = 999999,
+            });
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void CrmDataQueryTest()
         {            
             var client = new FxiaokeClient();
             var request = new CrmDataQueryRequest()
