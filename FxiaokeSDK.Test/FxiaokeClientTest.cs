@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FxiaokeSDK.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 
 namespace FxiaokeSDK.Test
 {
@@ -31,6 +32,22 @@ namespace FxiaokeSDK.Test
             AppAccessToken = result1.Response.AppAccessToken;
             CorpAccessToken = result0.Response.CorpAccessToken;
             CorpId = result0.Response.CorpId;
+        }
+
+        [TestMethod]
+        public void ExecuteTest()
+        {
+            var jsonParam = new JObject
+            {
+                ["corpAccessToken"] = CorpAccessToken,
+                ["corpId"] = CorpId,
+            };
+            jsonParam["fetchChild"] = false;
+            jsonParam["departmentId"] = 999999;
+
+            var client = new FxiaokeClient();
+            var result = client.Execute("/cgi/user/simpleList", jsonParam.ToString());
+            Assert.IsTrue(result.Success, result.Message);
         }
 
         [TestMethod]
