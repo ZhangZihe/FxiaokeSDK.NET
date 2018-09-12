@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using FxiaokeSDK.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace FxiaokeSDK.Test
@@ -81,14 +83,33 @@ namespace FxiaokeSDK.Test
 
         [TestMethod]
         public void UserSimpleListTest()
-        {
+        {            
             var client = new FxiaokeClient();
-            var result = client.Execute(new UserSimpleListRequest
+            var request = new CrmDataQueryRequest()
             {
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
-                DepartmentId = 999999,
-            });
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                ApiName = "SalesOrderObj",
+                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                {
+                    Offset = 0,
+                    Limit = 1000,
+                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    {
+                        new CrmDataQueryRequest.CrmDataCondition()
+                        {                         
+                            Conditions = new JObject
+                            {
+                                ["UDSText1__c"] = "987654321"
+                            }
+                        }
+                    }
+                }
+
+            };
+            var json = JsonConvert.SerializeObject(request);
+            var result = client.Execute(request);
             Assert.IsTrue(result.Success, result.Message);
         }
     }
