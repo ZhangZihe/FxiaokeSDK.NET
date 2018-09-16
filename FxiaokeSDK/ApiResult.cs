@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FxiaokeSDK
 {
-    public class ApiResult<TResponse> where TResponse : BaseResponse
+    public class ApiResult<TResponse>
     {
         public bool Success { get; set; }
 

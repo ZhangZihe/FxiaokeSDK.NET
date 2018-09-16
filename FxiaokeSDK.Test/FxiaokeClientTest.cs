@@ -1,6 +1,8 @@
-﻿using FxiaokeSDK.Request;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
+using FxiaokeSDK.Request;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -18,9 +20,9 @@ namespace FxiaokeSDK.Test
         [TestInitialize]
         public void Setup()
         {
-            FxiaokeConfig.AppId = "FSAID_1317cf4";
-            FxiaokeConfig.AppSecret = "7faded1267ba492aa3eafe1aae12e86e";
-            FxiaokeConfig.PermanentCode = "4EB0845137A6411E69850DFC5A94BB1E";
+            FxiaokeConfig.AppId = "FSAID_1317d08";
+            FxiaokeConfig.AppSecret = "b2b75ca5885c47a18cc7724458b56c5c";
+            FxiaokeConfig.PermanentCode = "1E1D1E3108E008A52EB7EBACB2779A28";
 
             var client = new FxiaokeClient();
             var result0 = client.Execute(new CorpAccessTokenGetRequest());
@@ -32,6 +34,22 @@ namespace FxiaokeSDK.Test
             AppAccessToken = result1.Response.AppAccessToken;
             CorpAccessToken = result0.Response.CorpAccessToken;
             CorpId = result0.Response.CorpId;
+        }
+
+        [TestMethod]
+        public void ExecuteTest()
+        {
+            var jsonParam = new JObject
+            {
+                ["corpAccessToken"] = CorpAccessToken,
+                ["corpId"] = CorpId,
+            };
+            jsonParam["fetchChild"] = false;
+            jsonParam["departmentId"] = 999999;
+
+            var client = new FxiaokeClient();
+            var result = client.Execute("/cgi/user/simpleList", jsonParam.ToString());
+            Assert.IsTrue(result.Success, result.Message);
         }
 
         [TestMethod]
@@ -63,8 +81,22 @@ namespace FxiaokeSDK.Test
             Assert.IsTrue(result.Success, result.Message);
         }
 
+
         [TestMethod]
         public void UserSimpleListTest()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new UserSimpleListRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                DepartmentId = 999999,
+            });
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void CrmDataQueryTest()
         {            
             var client = new FxiaokeClient();
             var request = new CrmDataQueryRequest()

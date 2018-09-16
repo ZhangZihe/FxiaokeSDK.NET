@@ -99,7 +99,7 @@ namespace FxiaokeSDK
 
         public ApiResult<CrmDataGetResponse> Execute(CrmDataGetRequest request)
         {
-            return Execute<CrmDataGetRequest, CrmDataGetResponse>("/cgi/crm/countryAreaOptions/get", request);
+            return Execute<CrmDataGetRequest, CrmDataGetResponse>("/cgi/crm/data/get", request);
         }
         public ApiResult<CrmDataQueryResponse> Execute(CrmDataQueryRequest request)
         {
