@@ -16,9 +16,9 @@ namespace FxiaokeSDK.Response
         public string ProfileImageUrl { get; set; }
         public List<int> DepartmentIds { get; set; }
         public string EmployeeNumber { get; set; }
-        public DateTime HireDate { get; set; }
-        public DateTime BirthDate { get; set; }
-        public DateTime TartWorkDate { get; set; }
+        public string HireDate { get; set; }
+        public string BirthDate { get; set; }
+        public string TartWorkDate { get; set; }
         public long CreateTime { get; set; }
         public string LeaderId { get; set; }
     }
