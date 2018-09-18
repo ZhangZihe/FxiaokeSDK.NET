@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace FxiaokeSDK
 {
@@ -67,6 +68,10 @@ namespace FxiaokeSDK
             return Execute<UserSimpleListRequest, UserSimpleListResponse>("/cgi/user/simpleList", request);
         }
 
+        public ApiResult<UserGetResponse> Execute(UserGetRequest request)
+        {
+            return Execute<UserGetRequest, UserGetResponse>("/cgi/user/get", request);
+        }
         #endregion
 
 

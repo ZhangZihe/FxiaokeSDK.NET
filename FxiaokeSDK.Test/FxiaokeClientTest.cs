@@ -126,5 +126,20 @@ namespace FxiaokeSDK.Test
             var result = client.Execute(request);
             Assert.IsTrue(result.Success, result.Message);
         }
+
+        [TestMethod]
+        public void GetUserTest()
+        {
+            var client = new FxiaokeClient();
+            var request = new UserGetRequest()
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                OpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",                               
+            };
+            var json = JsonConvert.SerializeObject(request);
+            var result = client.Execute(request);
+            Assert.IsTrue(result.Success, result.Message);
+        }
     }
 }
