@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace FxiaokeSDK
 {
@@ -67,6 +68,10 @@ namespace FxiaokeSDK
             return Execute<UserSimpleListRequest, UserSimpleListResponse>("/cgi/user/simpleList", request);
         }
 
+        public ApiResult<UserGetResponse> Execute(UserGetRequest request)
+        {
+            return Execute<UserGetRequest, UserGetResponse>("/cgi/user/get", request);
+        }
         #endregion
 
 
@@ -106,6 +111,10 @@ namespace FxiaokeSDK
             return Execute<CrmDataQueryRequest, CrmDataQueryResponse>("/cgi/crm/data/query", request);
         }
 
+        public ApiResult<CrmQueryAreaResponse> Execute(CrmQueryAreaRequest request)
+        {
+            return Execute<CrmQueryAreaRequest, CrmQueryAreaResponse>("/cgi/crm/countryAreaOptions/get", request);
+        }
         public ApiResult<BaseResponse> Execute(CrmDataRecoverRequest request)
         {
             return Execute<CrmDataRecoverRequest, BaseResponse>("/cgi/crm/data/recover", request);

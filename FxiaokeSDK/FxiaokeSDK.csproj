@@ -72,6 +72,8 @@
     <Compile Include="Request\CrmDataDeleteV2Request.cs" />
     <Compile Include="Request\CrmDataRecoverV2Request.cs" />
     <Compile Include="Request\CrmDataUpdateV2Request.cs" />
+    <Compile Include="Request\CrmQueryAreaRequest.cs" />
+    <Compile Include="Request\UserGetRequest.cs" />
     <Compile Include="Request\DepartmentListRequest.cs" />
     <Compile Include="Request\Oauth2AccountBindRequest.cs" />
     <Compile Include="Request\Oauth2OpenUserIdGetRequest.cs" />
@@ -96,12 +98,14 @@
     <Compile Include="Response\CrmDataQueryV2Response.cs" />
     <Compile Include="Response\CrmObjectDescribeResponse.cs" />
     <Compile Include="Response\CrmObjectListResponse.cs" />
+    <Compile Include="Response\CrmQueryAreaResponse.cs" />
     <Compile Include="Response\DepartmentListResponse.cs" />
     <Compile Include="Response\Oauth2OpenUserIdGetRespnose.cs" />
     <Compile Include="Response\OpenIdBatchGetResponse.cs" />
     <Compile Include="Response\OpenIdGetResponse.cs" />
     <Compile Include="Response\UnidBatchGetResponse.cs" />
     <Compile Include="Response\UnidGetResponse.cs" />
+    <Compile Include="Response\UserGetResponse.cs" />
     <Compile Include="Response\UserSimpleListResponse.cs" />
   </ItemGroup>
   <ItemGroup>
