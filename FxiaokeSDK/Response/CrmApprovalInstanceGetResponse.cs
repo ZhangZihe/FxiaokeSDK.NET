@@ -8,6 +8,8 @@ namespace FxiaokeSDK.Response
 {
     public class CrmApprovalInstanceGetResponse : BaseResponse
     {
+        public ApprovalInstanceDetail InstanceDetail { get; set; }
+
         public class ApprovalInstanceDetail
         {
             /// <summary>
