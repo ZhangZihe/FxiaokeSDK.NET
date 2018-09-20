@@ -115,7 +115,7 @@ namespace FxiaokeSDK.Test
                         {                         
                             Conditions = new JObject
                             {
-                                ["UDSText1__c"] = "987654321"
+                                ["order_id"] = "987654321"
                             }
                         }
                     }
@@ -139,6 +139,33 @@ namespace FxiaokeSDK.Test
             };
             var json = JsonConvert.SerializeObject(request);
             var result = client.Execute(request);
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+
+        [TestMethod]
+        public void UpdateObj()
+        {
+            var client = new FxiaokeClient();
+            var request = new CrmApprovalTaskActionRequest
+            {
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                TaskId = "5ba34e35cc9da3a0693d10fb",
+                ActionType ="agree",
+                Opinion ="同意"
+            };
+            var result = client.Execute(new CrmApprovalTaskActionRequest
+            {
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                TaskId = "5ba34e35cc9da3a0693d10fb",
+                ActionType = "agree",
+                Opinion = "同意"
+            });
+            var json = JsonConvert.SerializeObject(request);
             Assert.IsTrue(result.Success, result.Message);
         }
     }
