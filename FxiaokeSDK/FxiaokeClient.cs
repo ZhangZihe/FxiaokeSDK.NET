@@ -197,7 +197,7 @@ namespace FxiaokeSDK
 
         public ApiResult<BaseResponse> Execute(CrmApprovalTaskActionRequest request)
         {
-            return Execute<CrmApprovalTaskActionRequest, BaseResponse>("/crm/approvalTask/action", request);
+            return Execute<CrmApprovalTaskActionRequest, BaseResponse>("/cgi/crm/approvalTask/action", request);
         }
 
         public ApiResult<CrmApprovalInstancesQueryResponse> Execute(CrmApprovalInstancesQueryRequest request)
