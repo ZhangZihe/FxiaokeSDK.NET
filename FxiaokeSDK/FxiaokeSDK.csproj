@@ -77,6 +77,8 @@
     <Compile Include="Request\CrmDataUpdateV2Request.cs" />
     <Compile Include="Request\CrmObjectApprovalInstancesQueryRequest.cs" />
     <Compile Include="Request\CrmQueryAreaRequest.cs" />
+    <Compile Include="Request\AppMessageSendRequest.cs" />
+    <Compile Include="Request\MessageSendRequest.cs" />
     <Compile Include="Request\UserGetRequest.cs" />
     <Compile Include="Request\DepartmentListRequest.cs" />
     <Compile Include="Request\Oauth2AccountBindRequest.cs" />

@@ -206,5 +206,20 @@ namespace FxiaokeSDK
         }
 
         #endregion
+
+
+        #region 发送消息
+
+        public ApiResult<BaseResponse> Execute(MessageSendRequest request)
+        {
+            return Execute<MessageSendRequest, BaseResponse>("/cgi/message/send", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(AppMessageSendRequest request)
+        {
+            return Execute<AppMessageSendRequest, BaseResponse>("/cgi/app/message/send", request);
+        }
+
+        #endregion
     }
 }
