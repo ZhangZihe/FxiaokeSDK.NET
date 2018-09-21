@@ -96,6 +96,20 @@ namespace FxiaokeSDK.Test
         }
 
         [TestMethod]
+        public void CrmObjectDescribeTest()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmObjectDescribeRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                ApiName = "SalesOrderObj",
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98"
+            });
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
         public void CrmDataQueryTest()
         {            
             var client = new FxiaokeClient();
@@ -115,14 +129,13 @@ namespace FxiaokeSDK.Test
                         {                         
                             Conditions = new JObject
                             {
-                                ["UDSText1__c"] = "987654321"
+                                ["name"] = "O20180912-0022"
                             }
                         }
                     }
                 }
-
             };
-            var json = JsonConvert.SerializeObject(request);
+            
             var result = client.Execute(request);
             Assert.IsTrue(result.Success, result.Message);
         }
