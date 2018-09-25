@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using FxiaokeSDK.Request;
+﻿using FxiaokeSDK.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace FxiaokeSDK.Test
 {
@@ -97,7 +96,7 @@ namespace FxiaokeSDK.Test
 
         [TestMethod]
         public void CrmDataQueryTest()
-        {            
+        {
             var client = new FxiaokeClient();
             var request = new CrmDataQueryRequest()
             {
@@ -112,10 +111,10 @@ namespace FxiaokeSDK.Test
                     Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
                     {
                         new CrmDataQueryRequest.CrmDataCondition()
-                        {                         
+                        {
                             Conditions = new JObject
                             {
-                                ["UDSText1__c"] = "987654321"
+                                ["UDSText1__c"] = new JArray(){"12"}
                             }
                         }
                     }
@@ -135,11 +134,206 @@ namespace FxiaokeSDK.Test
             {
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
-                OpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",                               
+                OpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
             };
             var json = JsonConvert.SerializeObject(request);
             var result = client.Execute(request);
             Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void GetAccountObjTest()
+        {
+            var client = new FxiaokeClient();
+            var request = new CrmDataQueryRequest()
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                ApiName = "AccountObj",
+                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                {
+                    Offset = 0,
+                    Limit = 1000,
+                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    {
+                        new CrmDataQueryRequest.CrmDataCondition()
+                        {
+                            Conditions = new JObject
+                            {
+                                ["account_id"] = "cefa92170d6e49ad8321ce3997986a95"
+                            }
+                        }
+                    }
+                }
+
+            };
+            var json = JsonConvert.SerializeObject(request);
+            var result = client.Execute(request);
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void GetSalesOrderObjTest()
+        {
+            var client = new FxiaokeClient();
+            var request = new CrmDataQueryRequest()
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                ApiName = "SalesOrderObj",
+                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                {
+                    Offset = 0,
+                    Limit = 1000,
+                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    {
+                        new CrmDataQueryRequest.CrmDataCondition()
+                        {
+                            Conditions = new JObject
+                            {
+                                ["name"] = "O20180906-0007"
+                            }
+                        }
+                    }
+                    //,Orders = new List<CrmDataQueryRequest.CrmDataOrder>()
+                    //{
+                    //    new CrmDataQueryRequest.CrmDataOrder()
+                    //    {
+                    //        Ascending = false,
+                    //        Field = "create_time"
+                    //    }
+                    //}
+                }
+
+            };
+            var json = JsonConvert.SerializeObject(request);
+            var result = client.Execute(request);
+            long asd = 0;
+            asd = long.Parse(result.Response.Datas[0]["order_time"].ToString());
+            var time = new DateTime(asd);
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+
+
+        [TestMethod]
+        public void GetContractObjTest()
+        {
+            var client = new FxiaokeClient();
+            var request = new CrmDataQueryRequest()
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                ApiName = "ContractObj",
+                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                {
+                    Offset = 0,
+                    Limit = 1000,
+                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+            {
+                new CrmDataQueryRequest.CrmDataCondition()
+                {
+                    Conditions = new JObject
+                    {
+                        ["account_id"] = "O20180906-0007"
+                    }
+                }
+            }
+                    //,Orders = new List<CrmDataQueryRequest.CrmDataOrder>()
+                    //{
+                    //    new CrmDataQueryRequest.CrmDataOrder()
+                    //    {
+                    //        Ascending = false,
+                    //        Field = "create_time"
+                    //    }
+                    //}
+                }
+
+            };
+            var json = JsonConvert.SerializeObject(request);
+            var result = client.Execute(request);
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+
+        [TestMethod]
+        public void GetMainObjTest()
+        {
+            var client = new FxiaokeClient();
+            var request = new CrmDataQueryRequest()
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                ApiName = "object_JyclH__c",
+                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                {
+                    Offset = 0,
+                    Limit = 10,
+                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    {
+                        new CrmDataQueryRequest.CrmDataCondition()
+                        {
+                            Conditions = new JObject
+                            {
+                                ["_id"] = "5b8f76b1494f6f37d87ea4ec"
+                            }
+                        }
+                    }
+                    //,Orders = new List<CrmDataQueryRequest.CrmDataOrder>()
+                    //{
+                    //    new CrmDataQueryRequest.CrmDataOrder()
+                    //    {
+                    //        Ascending = false,
+                    //        Field = "create_time"
+                    //    }
+                    //}
+                }
+
+            };
+            var json = JsonConvert.SerializeObject(request);
+            var result = client.Execute(request);
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void JObjectTest()
+        {
+            //string jsonText = "[{'a':'aaa','b':'bbb','c':'ccc'},{'a':'aa','b':'bb,'c':'cc'}]";
+            //JArray arrry = JArray.Parse(jsonText);
+            var time = DateTime.Now.ToString("yyyy/MM/dd");
+            Assert.IsNotNull(time);
+        }
+
+        [TestMethod]
+        public void InsertLeadsObj()
+        {
+            var request = new CrmDataCreateRequest()
+            {
+                CorpAccessToken = CorpAccessToken,
+                ApiName = "LeadsObj",
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                CorpId = CorpId,
+                Data = new JObject
+                {
+                    ["source"] = "11",
+                    ["marketing_event_id"] = "beac613ad90849c796f075753e9d033b",
+                    ["name"] = "123",
+                    ["mobile"] = "13712312312",
+                    ["UDInt1__c"] = "93123123",
+                    ["remark"] = "店铺链接:www.baidu.com\r\n旺旺:ww191239"
+                }
+            };
+            var client = new FxiaokeClient();
+            var response = client.Execute(request);
+            if (response != null && response.Response.ErrorCode == 0 && !string.IsNullOrEmpty(response.Response.DataId))
+            {
+                var ss = response;
+            }
+                Assert.IsTrue(response.Response.ErrorCode == 0);
         }
     }
 }
