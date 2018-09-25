@@ -181,5 +181,45 @@ namespace FxiaokeSDK
         }
 
         #endregion
+
+
+        #region 审批流程接口
+
+        public ApiResult<CrmObjectApprovalInstancesQueryResponse> Execute(CrmObjectApprovalInstancesQueryRequest request)
+        {
+            return Execute<CrmObjectApprovalInstancesQueryRequest, CrmObjectApprovalInstancesQueryResponse>("/cgi/crm/object/approvalInstances/query", request);
+        }
+
+        public ApiResult<CrmApprovalInstanceGetResponse> Execute(CrmApprovalInstanceGetRequest request)
+        {
+            return Execute<CrmApprovalInstanceGetRequest, CrmApprovalInstanceGetResponse>("/cgi/crm/approvalInstance/get", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(CrmApprovalTaskActionRequest request)
+        {
+            return Execute<CrmApprovalTaskActionRequest, BaseResponse>("/cgi/crm/approvalTask/action", request);
+        }
+
+        public ApiResult<CrmApprovalInstancesQueryResponse> Execute(CrmApprovalInstancesQueryRequest request)
+        {
+            return Execute<CrmApprovalInstancesQueryRequest, CrmApprovalInstancesQueryResponse>("/cgi/crm/approvalInstances/query", request);
+        }
+
+        #endregion
+
+
+        #region 发送消息
+
+        public ApiResult<BaseResponse> Execute(MessageSendRequest request)
+        {
+            return Execute<MessageSendRequest, BaseResponse>("/cgi/message/send", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(AppMessageSendRequest request)
+        {
+            return Execute<AppMessageSendRequest, BaseResponse>("/cgi/app/message/send", request);
+        }
+
+        #endregion
     }
 }

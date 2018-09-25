@@ -43,7 +43,7 @@ namespace FxiaokeSDK
                 return new ApiResult<string>
                 {
                     Success = obj?.ErrorCode == 0,
-                    Message = obj?.ErrorDescription ?? obj?.ErrorMessage ?? "发生未知异常",
+                    Message = obj?.ErrorMessage ?? obj?.ErrorDescription ?? "发生未知异常",
                     ErrorCode = obj?.ErrorCode ?? 88888,
                     Response = result,
                     OriginalRequest = jsonParam,

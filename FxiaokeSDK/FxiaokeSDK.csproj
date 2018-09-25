@@ -58,6 +58,9 @@
     <Compile Include="Request\AppAccessTokenGetRequest.cs" />
     <Compile Include="Request\BaseCgiRequest.cs" />
     <Compile Include="Request\CorpAccessTokenGetRequest.cs" />
+    <Compile Include="Request\CrmApprovalInstanceGetRequest.cs" />
+    <Compile Include="Request\CrmApprovalInstancesQueryRequest.cs" />
+    <Compile Include="Request\CrmApprovalTaskActionRequest.cs" />
     <Compile Include="Request\CrmCountryAreaOptionsGetRequest.cs" />
     <Compile Include="Request\CrmDataChangeOwnerRequest.cs" />
     <Compile Include="Request\CrmDataCreateRequest.cs" />
@@ -72,7 +75,10 @@
     <Compile Include="Request\CrmDataDeleteV2Request.cs" />
     <Compile Include="Request\CrmDataRecoverV2Request.cs" />
     <Compile Include="Request\CrmDataUpdateV2Request.cs" />
+    <Compile Include="Request\CrmObjectApprovalInstancesQueryRequest.cs" />
     <Compile Include="Request\CrmQueryAreaRequest.cs" />
+    <Compile Include="Request\AppMessageSendRequest.cs" />
+    <Compile Include="Request\MessageSendRequest.cs" />
     <Compile Include="Request\UserGetRequest.cs" />
     <Compile Include="Request\DepartmentListRequest.cs" />
     <Compile Include="Request\Oauth2AccountBindRequest.cs" />
@@ -83,6 +89,8 @@
     <Compile Include="Request\UnidGetRequest.cs" />
     <Compile Include="Request\UserSimpleListRequest.cs" />
     <Compile Include="Response\AppAccessTokenGetResponse.cs" />
+    <Compile Include="Response\CrmApprovalInstanceGetResponse.cs" />
+    <Compile Include="Response\CrmApprovalInstancesQueryResponse.cs" />
     <Compile Include="Response\CrmDataGetResponse.cs" />
     <Compile Include="Request\CrmDataQueryRequest.cs" />
     <Compile Include="Request\CrmDataRecoverRequest.cs" />
@@ -96,6 +104,7 @@
     <Compile Include="Response\CrmDataGetV2Response.cs" />
     <Compile Include="Response\CrmDataQueryResponse.cs" />
     <Compile Include="Response\CrmDataQueryV2Response.cs" />
+    <Compile Include="Response\CrmObjectApprovalInstancesQueryResponse.cs" />
     <Compile Include="Response\CrmObjectDescribeResponse.cs" />
     <Compile Include="Response\CrmObjectListResponse.cs" />
     <Compile Include="Response\CrmQueryAreaResponse.cs" />
