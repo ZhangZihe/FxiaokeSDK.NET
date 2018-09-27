@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace FxiaokeSDK.Test
 {
@@ -229,7 +230,48 @@ namespace FxiaokeSDK.Test
             Assert.IsTrue(result.Success, result.Message);
         }
 
+        [TestMethod]
+        public void MediaUploadTest()
+        {
+            var contractUrl = "https://a2.fspage.com/FSC/EM/Avatar/GetAvatar?path=N_201809_17_f022c2655d014d57aef64d397c74b043.jpg&ea=juketool";
+            var data = new HttpClient().GetByteArrayAsync(contractUrl).Result;
 
+            var client = new FxiaokeClient();
+            var result = client.Execute(new MediaUploadRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                Type = "document",
+                Media = data,
+            }).Result;
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void MediaDownloadTest()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new MediaDownloadRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                MediaId = "dd1b088b-f9ae-45ab-b2fd-3965a2a2ce1a",
+            });
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void MediaDeleteTest()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new MediaDeleteRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                MediaId = "dd1b088b-f9ae-45ab-b2fd-3965a2a2ce1a",
+            });
+            Assert.IsTrue(result.Success, result.Message);
+        }
 
         [TestMethod]
         public void GetContractObjTest()
