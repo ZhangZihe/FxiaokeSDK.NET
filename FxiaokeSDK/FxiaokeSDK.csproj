@@ -78,7 +78,10 @@
     <Compile Include="Request\CrmObjectApprovalInstancesQueryRequest.cs" />
     <Compile Include="Request\CrmQueryAreaRequest.cs" />
     <Compile Include="Request\AppMessageSendRequest.cs" />
+    <Compile Include="Request\MediaDeleteRequest.cs" />
+    <Compile Include="Request\MediaDownloadRequest.cs" />
     <Compile Include="Request\MessageSendRequest.cs" />
+    <Compile Include="Request\MediaUploadRequest.cs" />
     <Compile Include="Request\UserGetRequest.cs" />
     <Compile Include="Request\DepartmentListRequest.cs" />
     <Compile Include="Request\Oauth2AccountBindRequest.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="Response\OpenIdGetResponse.cs" />
     <Compile Include="Response\UnidBatchGetResponse.cs" />
     <Compile Include="Response\UnidGetResponse.cs" />
+    <Compile Include="Response\MediaUploadResponse.cs" />
     <Compile Include="Response\UserGetResponse.cs" />
     <Compile Include="Response\UserSimpleListResponse.cs" />
   </ItemGroup>

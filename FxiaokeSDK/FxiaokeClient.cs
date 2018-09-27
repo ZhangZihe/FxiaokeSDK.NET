@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace FxiaokeSDK
 {
@@ -218,6 +219,26 @@ namespace FxiaokeSDK
         public ApiResult<BaseResponse> Execute(AppMessageSendRequest request)
         {
             return Execute<AppMessageSendRequest, BaseResponse>("/cgi/app/message/send", request);
+        }
+
+        #endregion
+
+
+        #region 素材管理
+
+        public Task<ApiResult<MediaUploadResponse>> Execute(MediaUploadRequest request)
+        {
+            return Upload<MediaUploadRequest, MediaUploadResponse>(request);
+        }
+
+        public ApiResult<Stream> Execute(MediaDownloadRequest request)
+        {
+            return Download("/media/download", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(MediaDeleteRequest request)
+        {
+            return Execute<MediaDeleteRequest, BaseResponse>("/media/delete", request);
         }
 
         #endregion
