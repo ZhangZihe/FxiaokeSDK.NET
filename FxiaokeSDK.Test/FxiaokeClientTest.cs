@@ -53,23 +53,6 @@ namespace FxiaokeSDK.Test
         }
 
         [TestMethod]
-        public void CrmDataQueryV2Test()
-        {
-            var client = new FxiaokeClient();
-            var result = client.Execute(new CrmDataQueryV2Request
-            {
-                CorpAccessToken = CorpAccessToken,
-                CorpId = CorpId,
-                CurrentOpenUserId = "FSUID_E52ABBD03C50251FC961C853B4A3C6A5",
-                Data = new CrmDataQueryV2Request.CrmDataQueryData
-                {
-                    DataObjectApiName = "PriceBookObj",
-                }
-            });
-            Assert.IsTrue(result.Success, result.Message);
-        }
-
-        [TestMethod]
         public void DepartmentListTest()
         {
             var client = new FxiaokeClient();
@@ -103,7 +86,7 @@ namespace FxiaokeSDK.Test
             {
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
-                ApiName = "SalesOrderObj",
+                ApiName = "PaymentObj",
                 CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98"
             });
             Assert.IsTrue(result.Success, result.Message);
@@ -111,52 +94,6 @@ namespace FxiaokeSDK.Test
 
         [TestMethod]
         public void CrmDataQueryTest()
-        {
-            var client = new FxiaokeClient();
-            var request = new CrmDataQueryRequest()
-            {
-                CorpAccessToken = CorpAccessToken,
-                CorpId = CorpId,
-                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
-                ApiName = "SalesOrderObj",
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
-                {
-                    Offset = 0,
-                    Limit = 1000,
-                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
-                    {
-                        new CrmDataQueryRequest.CrmDataCondition()
-                        {
-                            Conditions = new JObject
-                            {
-                                ["order_id"] = "987654321"
-                            }
-                        }
-                    }
-                }
-            };
-            
-            var result = client.Execute(request);
-            Assert.IsTrue(result.Success, result.Message);
-        }
-
-        [TestMethod]
-        public void GetUserTest()
-        {
-            var client = new FxiaokeClient();
-            var request = new UserGetRequest()
-            {
-                CorpAccessToken = CorpAccessToken,
-                CorpId = CorpId,
-                OpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
-            };
-            var json = JsonConvert.SerializeObject(request);
-            var result = client.Execute(request);
-            Assert.IsTrue(result.Success, result.Message);
-        }
-
-        [TestMethod]
-        public void GetAccountObjTest()
         {
             var client = new FxiaokeClient();
             var request = new CrmDataQueryRequest()
@@ -175,12 +112,61 @@ namespace FxiaokeSDK.Test
                         {
                             Conditions = new JObject
                             {
-                                ["account_id"] = "cefa92170d6e49ad8321ce3997986a95"
+                                ["name"] = "采羲网货商城"
                             }
                         }
                     }
                 }
+            };
+            
+            var result = client.Execute(request);
+            Assert.IsTrue(result.Success, result.Message);
+        }
 
+        [TestMethod]
+        public void CrmDataQueryV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmDataQueryV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_E52ABBD03C50251FC961C853B4A3C6A5",
+                Data = new CrmDataQueryV2Request.CrmDataQueryData
+                {
+                    DataObjectApiName = "PriceBookObj",
+                }
+            });
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void CrmDataUpdateTest()
+        {
+            var client = new FxiaokeClient();
+            var request = new CrmDataUpdateRequest()
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                ApiName = "AccountObj",
+                DataId = "433538f175e94e00ba9ec350bfc65fb6",
+                Data = new { owner = new List<string> { "FSUID_FACEAA83D4F0EE9591CDB911563EECBC" }, owner_department = "技术部" }
+            };
+
+            var result = client.Execute(request);
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void GetUserTest()
+        {
+            var client = new FxiaokeClient();
+            var request = new UserGetRequest()
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                OpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
             };
             var json = JsonConvert.SerializeObject(request);
             var result = client.Execute(request);
@@ -274,48 +260,7 @@ namespace FxiaokeSDK.Test
         }
 
         [TestMethod]
-        public void GetContractObjTest()
-        {
-            var client = new FxiaokeClient();
-            var request = new CrmDataQueryRequest()
-            {
-                CorpAccessToken = CorpAccessToken,
-                CorpId = CorpId,
-                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
-                ApiName = "ContractObj",
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
-                {
-                    Offset = 0,
-                    Limit = 1000,
-                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
-            {
-                new CrmDataQueryRequest.CrmDataCondition()
-                {
-                    Conditions = new JObject
-                    {
-                        ["account_id"] = "O20180906-0007"
-                    }
-                }
-            }
-                    //,Orders = new List<CrmDataQueryRequest.CrmDataOrder>()
-                    //{
-                    //    new CrmDataQueryRequest.CrmDataOrder()
-                    //    {
-                    //        Ascending = false,
-                    //        Field = "create_time"
-                    //    }
-                    //}
-                }
-
-            };
-            var json = JsonConvert.SerializeObject(request);
-            var result = client.Execute(request);
-            Assert.IsTrue(result.Success, result.Message);
-        }
-
-
-        [TestMethod]
-        public void UpdateObj()
+        public void CrmApprovalTaskActionTest()
         {
             var client = new FxiaokeClient();
             var request = new CrmApprovalTaskActionRequest
@@ -327,15 +272,7 @@ namespace FxiaokeSDK.Test
                 ActionType ="agree",
                 Opinion ="同意"
             };
-            var result = client.Execute(new CrmApprovalTaskActionRequest
-            {
-                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
-                CorpAccessToken = CorpAccessToken,
-                CorpId = CorpId,
-                TaskId = "5ba34e35cc9da3a0693d10fb",
-                ActionType = "agree",
-                Opinion = "同意"
-            });
+            var result = client.Execute(request);
             var json = JsonConvert.SerializeObject(request);
             Assert.IsTrue(result.Success, result.Message);
         }
