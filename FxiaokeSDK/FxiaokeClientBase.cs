@@ -72,22 +72,26 @@ namespace FxiaokeSDK
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
-
             
             var result = Execute(api, jsonParam);
 
             try
             {
-                var response = JsonConvert.DeserializeObject<TResponse>(result.Response);
-                return new ApiResult<TResponse>
+                var apiResult = new ApiResult<TResponse>
                 {
                     Success = result.Success,
                     ErrorCode = result.ErrorCode,
                     Message = result.Message,
                     OriginalRequest = result.OriginalRequest,
                     OriginalResponse = result.OriginalResponse,
-                    Response = response,
-                };
+                }; ;
+
+                if (string.IsNullOrWhiteSpace(result.Response))
+                    return apiResult;
+
+                var response = JsonConvert.DeserializeObject<TResponse>(result.Response);
+                apiResult.Response = response;
+                return apiResult;
             }
             catch(Exception e)
             {
