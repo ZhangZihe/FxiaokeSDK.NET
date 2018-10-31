@@ -85,7 +85,7 @@ namespace FxiaokeSDK
 
         public ApiResult<BaseResponse> Execute(CrmDataChangeOwnerRequest request)
         {
-            return Execute<CrmDataChangeOwnerRequest, BaseResponse>("/crm/data/changeOwner", request);
+            return Execute<CrmDataChangeOwnerRequest, BaseResponse>("/cgi/crm/data/changeOwner", request);
         }
 
         public ApiResult<CrmDataCreateResponse> Execute(CrmDataCreateRequest request)
