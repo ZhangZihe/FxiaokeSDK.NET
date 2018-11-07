@@ -21,6 +21,11 @@ namespace FxiaokeSDK.Response
             /// 员工姓名
             /// </summary>
             public string Name { get; set; }
+
+            /// <summary>
+            /// 花名
+            /// </summary>
+            public string NickName { get; set; }
         }
     }
 }
