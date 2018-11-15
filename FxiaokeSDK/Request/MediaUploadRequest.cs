@@ -19,6 +19,11 @@ namespace FxiaokeSDK.Request
         public string Type { get; set; }
 
         /// <summary>
+        /// 文件扩展名, 当type=image时必传
+        /// </summary>
+        public string ExtName { get; set; }
+
+        /// <summary>
         /// 二进制流
         /// </summary>
         public byte[] Media { get; set; }

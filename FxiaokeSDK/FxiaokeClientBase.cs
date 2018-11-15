@@ -116,7 +116,7 @@ namespace FxiaokeSDK
             fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
             {
                 Name = $"\"media\"",
-                FileName = $"\"media_{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}\"",
+                FileName = $"\"media_{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}{(request.ExtName != null && !request.ExtName.StartsWith(".") ? $".{request.ExtName}" : request.ExtName)}\"",
             };
 
             var content = new MultipartFormDataContent();
