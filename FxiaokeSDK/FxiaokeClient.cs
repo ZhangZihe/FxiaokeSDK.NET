@@ -24,6 +24,11 @@ namespace FxiaokeSDK
             return Execute<AppAccessTokenGetRequest, AppAccessTokenGetResponse>("/cgi/appAccessToken/get", request);
         }
 
+        public ApiResult<JsApiTicketGetResponse> Execute(JsApiTicketGetRequest request)
+        {
+            return Execute<JsApiTicketGetRequest, JsApiTicketGetResponse>("/cgi/jsApiTicket/get", request);
+        }
+
         public ApiResult<BaseResponse> Execute(Oauth2AccountBindRequest request)
         {
             return Execute<Oauth2AccountBindRequest, BaseResponse>("/oauth2/accountBind", request);
