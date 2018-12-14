@@ -78,6 +78,7 @@
     <Compile Include="Request\CrmObjectApprovalInstancesQueryRequest.cs" />
     <Compile Include="Request\CrmQueryAreaRequest.cs" />
     <Compile Include="Request\AppMessageSendRequest.cs" />
+    <Compile Include="Request\DepartmentDetailRequest.cs" />
     <Compile Include="Request\JsApiTicketGetRequest.cs" />
     <Compile Include="Request\MediaDeleteRequest.cs" />
     <Compile Include="Request\MediaDownloadRequest.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Response\CrmObjectDescribeResponse.cs" />
     <Compile Include="Response\CrmObjectListResponse.cs" />
     <Compile Include="Response\CrmQueryAreaResponse.cs" />
+    <Compile Include="Response\DepartmentDetailResponse.cs" />
     <Compile Include="Response\DepartmentListResponse.cs" />
     <Compile Include="Response\JsApiTicketGetResponse.cs" />
     <Compile Include="Response\Oauth2OpenUserIdGetRespnose.cs" />
