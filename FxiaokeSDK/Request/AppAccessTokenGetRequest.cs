@@ -8,8 +8,8 @@ namespace FxiaokeSDK.Request
 {
     public class AppAccessTokenGetRequest
     {
-        public string AppId => FxiaokeConfig.AppId;
+        public string AppId { get; set; } = FxiaokeConfig.AppId;
 
-        public string AppSecret => FxiaokeConfig.AppSecret;
+        public string AppSecret { get; set; } = FxiaokeConfig.AppSecret;
     }
 }
