@@ -1,17 +1,18 @@
-﻿namespace FxiaokeSDK.Response
+﻿using System.Collections.Generic;
+
+namespace FxiaokeSDK.Response
 {
     public class DepartmentDetailResponse:BaseResponse
     {
-        /// <summary>
-        /// 负责人
-        /// </summary>
-        public string PrincipalId { get; set; }
+        public Department Department { get; set; }
+           
+    }
 
-        /// <summary>
-        /// 部门名称
-        /// </summary>
+    public class Department
+    {
         public string Name { get; set; }
-       
 
+
+        public string PrincipalId { get; set; }
     }
 }
