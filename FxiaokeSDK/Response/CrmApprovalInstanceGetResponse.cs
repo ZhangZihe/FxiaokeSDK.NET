@@ -83,7 +83,7 @@ namespace FxiaokeSDK.Response
             /// <summary>
             /// 未完成人员列表
             /// </summary>
-            public List<string> UnCompletePersons { get; set; }
+            public List<string> UnCompleteOpenPersons { get; set; }
 
             /// <summary>
             /// 完成时间
@@ -93,7 +93,7 @@ namespace FxiaokeSDK.Response
             /// <summary>
             /// 已完成人员列表
             /// </summary>
-            public List<string> CompleteOpenPersons { get; set; }
+            public List<string> CompletePersons { get; set; }
         }
 
         public class ApprovalInstanceDetailTaskOpinions
