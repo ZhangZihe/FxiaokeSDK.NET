@@ -28,6 +28,13 @@ namespace FxiaokeSDK.Console
 
         public static void Start()
         {
+            int size = 100;
+            for(var page = 1; page < 10; page++)
+                Start((page - 1) * size, size);
+        }
+
+        public static void Start(int offset, int limit)
+        {
             var result = Client.Execute(new CrmDataQueryRequest
             {
                 CorpAccessToken = CorpAccessToken,
@@ -36,8 +43,8 @@ namespace FxiaokeSDK.Console
                 ApiName = "object_112ft__c",
                 SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
                 {
-                    Offset = 0,
-                    Limit = 1000,
+                    Offset = offset,
+                    Limit = limit,
                     Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
                     {
                         new CrmDataQueryRequest.CrmDataCondition()
@@ -52,27 +59,33 @@ namespace FxiaokeSDK.Console
                 }
             });
 
-            if (result.Response.TotalNumber == 0)
+            if (!result.Success)
+            {
+                System.Console.WriteLine($"加载待处理数据失败:{result.Message}");
+                return;
+            }
+            if (result.Response.Datas.Count == 0)
             {
                 System.Console.WriteLine("没有需要处理的数据");
                 return;
             }
 
-            foreach(var item in result.Response.Datas.Take(1))
+            var resultMsg = new List<string>();
+            foreach(var item in result.Response.Datas.Take(100))
             {
-                var 销售订单 = item["field_jEU08__c"].ToString();
+                var 业绩结算单 = item["name"].ToString();
                 var 是否已确认 = item["field_w7706__c"].ToString(); //option1: 是, jU4rV1qjg: 否, other: 其他
-                var 待回款 = item["field_8z4KD__c"].ToString();
+                var 待回款 = decimal.Parse(item["field_8z4KD__c"].ToString());
                 var 订单类型 = item["field_ioOM2__c"].ToString(); //1: 新签, 2: 续约, 3: 升级, 4: 断约新签, 5: 增值
                 var 合同是否已上传 = item["field_83YtS__c"].ToString(); //是, 否
 
-                if (订单类型 != "5" && 合同是否已上传 == "否") //不是增值, 需要上传合同
+                if (订单类型 != "5" && 合同是否已上传 != "是") //不是增值, 需要上传合同
                     continue;
 
-                if (待回款 != "0") //过滤未回款
+                if (待回款 != 0) //过滤未回款
                     continue;
 
-                if (是否已确认 != "否") //过滤已确认
+                if (是否已确认 == "option1") //过滤已确认
                     continue;
 
                 var 可结算日期 = DateTime.Now.Date.ToUnixStamp(); //field_dB02P__c
@@ -86,15 +99,18 @@ namespace FxiaokeSDK.Console
                     CurrentOpenUserId = DefaultOpenUserId,
                     ApiName = "object_112ft__c",
                     DataId = item["_id"].ToString(),
-                    Data = new {
+                    Data = new
+                    {
                         field_dB02P__c = 可结算日期,
                         field_C46uu__c = 业务管理确认时间,
                         field_w7706__c = 已确认,
                     }
                 });
-                System.Console.WriteLine($"{销售订单},{updateResult.Success},{updateResult.Message}");
+                var line = $"{业绩结算单},{updateResult.Success},{updateResult.Message}";
+                resultMsg.Add(line);
+                System.Console.WriteLine(line);
             }
-            System.Console.WriteLine($"已处理完成数:{result.Response.Datas.Count}");
+            System.Console.WriteLine($"已处理完成数:{resultMsg.Count}/{result.Response.Datas.Count}");
         }
     }
 }
