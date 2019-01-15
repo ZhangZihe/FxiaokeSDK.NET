@@ -12,10 +12,11 @@ namespace FxiaokeSDK.Console
     {
         static void Main(string[] args)
         {
-            var client = new FxiaokeClient();
-            var result = client.Execute(new CorpAccessTokenGetRequest());
+            System.Console.WriteLine("开始处理......");
+            PerformanceSettle.Init();
+            PerformanceSettle.Start();
 
-            System.Console.WriteLine(JsonConvert.SerializeObject(result));
+            System.Console.WriteLine("处理完成!");
             System.Console.ReadLine();
         }
     }
