@@ -14,8 +14,9 @@ namespace FxiaokeSDK.Console
         {
             System.Console.WriteLine("开始处理......");
             PerformanceSettle.Init();
-            PerformanceSettle.Start();
-
+            //PerformanceSettle.Start();
+            //业绩结算单自动核对功能
+            PerformanceSettle.Check();
             System.Console.WriteLine("处理完成!");
             System.Console.ReadLine();
         }
