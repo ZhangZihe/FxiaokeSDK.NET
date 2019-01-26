@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FxiaokeSDK.Response;
+using Newtonsoft.Json;
 
 namespace FxiaokeSDK.Console
 {
@@ -148,12 +149,28 @@ namespace FxiaokeSDK.Console
 
             foreach (var order in orderList)
             {
-                System.Console.WriteLine($"当前处理:{orderList.IndexOf(order) + 1}/{orderList.Count}");               
+                //var index = orderList.IndexOf(order) + 1;
+                //if (index % 10 == 0)
+                //    System.Console.WriteLine($"当前处理:{index}/{orderList.Count}"); 
+                
+                if(order["order_status"].ToString() != "7")
+                {
+                    //System.Console.WriteLine($"订单{order["name"].ToString()}不是已确认订单不创建业绩结算单");
+                    continue;
+                }
+
+                var labels = JsonConvert.DeserializeObject<List<int>>(order["UDMSel1__c"].ToString());
+                if (labels.Contains(3) && (labels.Contains(1) || labels.Contains(2)))
+                {
+                    //System.Console.WriteLine($"订单{order["name"].ToString()}不是已回款的多店订单不创建业绩结算单");
+                    continue;
+                }
+
                 //计算出订单业绩结算金额
                 var amount = CalculateAmount(order, out string msg);
                 if (amount == decimal.Zero)
                 {                    
-                    System.Console.WriteLine($"计算订单{order["name"].ToString()}金额为0不创建业绩结算单");
+                    //System.Console.WriteLine($"计算订单{order["name"].ToString()}金额为0不创建业绩结算单");
                     continue;
                 }
                    
@@ -201,7 +218,7 @@ namespace FxiaokeSDK.Console
             var nextMonth = now.Month == 12
                 ? new DateTime(DateTime.Now.Year + 1, 1, 1)
                 : new DateTime(DateTime.Now.Year, now.Month + 1, 1);
-            var lastDayOfTheMonth = nextMonth.Date.AddDays(-1).AddHours(23).AddMinutes(59).AddMinutes(999);
+            var lastDayOfTheMonth = nextMonth.Date.AddDays(-1).AddHours(23).AddMinutes(59).AddMilliseconds(999);
             var result = Client.Execute(new CrmDataQueryRequest()
             {
                 ApiName = "SalesOrderObj",
@@ -212,6 +229,16 @@ namespace FxiaokeSDK.Console
                 {
                     Offset = offset,
                     Limit = limit,
+                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    {
+                        new CrmDataQueryRequest.CrmDataCondition()
+                        {
+                            Conditions = new JObject
+                            {
+                                ["order_status"] = "7"
+                            }
+                        }
+                    },
                     RangeConditions = new List<object>()
                     {
                         new JObject()
