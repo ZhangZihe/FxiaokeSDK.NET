@@ -56,7 +56,7 @@ namespace FxiaokeSDK.Request
             
             public CompositeFirst First { get; set; }
 
-            public CompositeForm Form { get; set; }
+            public List<CompositeForm> Form { get; set; }
 
             public CompositeRemark Remark { get; set; }
 
