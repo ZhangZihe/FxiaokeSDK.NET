@@ -87,6 +87,16 @@ namespace FxiaokeSDK
         #endregion
 
 
+        #region CRM业务接口
+
+        public ApiResult<BaseResponse> Execute(CrmTeamAddRequest request)
+        {
+            return Execute<CrmTeamAddRequest, BaseResponse>("/cgi/crm/team/add", request);
+        }
+
+        #endregion
+
+
         #region CRM - CRM基础接口
 
         public ApiResult<CrmCountryAreaOptionsGetResponse> Execute(CrmCountryAreaOptionsGetRequest request)

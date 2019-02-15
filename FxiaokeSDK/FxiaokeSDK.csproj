@@ -78,6 +78,7 @@
     <Compile Include="Request\CrmObjectApprovalInstancesQueryRequest.cs" />
     <Compile Include="Request\CrmQueryAreaRequest.cs" />
     <Compile Include="Request\AppMessageSendRequest.cs" />
+    <Compile Include="Request\CrmTeamAddRequest.cs" />
     <Compile Include="Request\DepartmentDetailRequest.cs" />
     <Compile Include="Request\JsApiTicketGetRequest.cs" />
     <Compile Include="Request\MediaDeleteRequest.cs" />
