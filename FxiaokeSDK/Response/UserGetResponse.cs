@@ -15,6 +15,8 @@ namespace FxiaokeSDK.Response
         public string Gender { get; set; }
         public string Position { get; set; }
         public string ProfileImageUrl { get; set; }
+
+        public int MainDepartmentId { get; set; }
         public List<int> DepartmentIds { get; set; }
         public string EmployeeNumber { get; set; }
         public string HireDate { get; set; }
