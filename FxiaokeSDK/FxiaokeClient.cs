@@ -78,6 +78,10 @@ namespace FxiaokeSDK
         {
             return Execute<UserGetRequest, UserGetResponse>("/cgi/user/get", request);
         }
+        public ApiResult<UserListResponse> Execute(UserListRequest request)
+        {
+            return Execute<UserListRequest, UserListResponse>("/cgi/user/list", request);
+        }
 
         public ApiResult<DepartmentDetailResponse> Execute(DepartmentDetailRequest request)
         {

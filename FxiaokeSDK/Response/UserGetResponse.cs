@@ -21,7 +21,7 @@ namespace FxiaokeSDK.Response
         public string EmployeeNumber { get; set; }
         public string HireDate { get; set; }
         public string BirthDate { get; set; }
-        public string TartWorkDate { get; set; }
+        public string StartWorkDate { get; set; }
         public long CreateTime { get; set; }
         public string LeaderId { get; set; }
     }

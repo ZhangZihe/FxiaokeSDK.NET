@@ -95,6 +95,7 @@
     <Compile Include="Request\OpenIdGetRequest.cs" />
     <Compile Include="Request\UnidBatchGetRequest.cs" />
     <Compile Include="Request\UnidGetRequest.cs" />
+    <Compile Include="Request\UserListRequest.cs" />
     <Compile Include="Request\UserSimpleListRequest.cs" />
     <Compile Include="Response\AppAccessTokenGetResponse.cs" />
     <Compile Include="Response\CrmApprovalInstanceGetResponse.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Response\UnidGetResponse.cs" />
     <Compile Include="Response\MediaUploadResponse.cs" />
     <Compile Include="Response\UserGetResponse.cs" />
+    <Compile Include="Response\UserListResponse.cs" />
     <Compile Include="Response\UserSimpleListResponse.cs" />
   </ItemGroup>
   <ItemGroup>
