@@ -28,14 +28,14 @@ namespace FxiaokeSDK.Console
             CorpId = result0.Response.CorpId;
         }
 
-        public static void Start()
+        public static void Start(DateTime settleTime)
         {
             int size = 100;
             for(var page = 1; page < 10; page++)
-                Start((page - 1) * size, size);
+                Start(settleTime, (page - 1) * size, size);
         }
 
-        public static void Start(int offset, int limit)
+        public static void Start(DateTime settleTime, int offset, int limit)
         {
             var result = Client.Execute(new CrmDataQueryRequest
             {
@@ -90,7 +90,7 @@ namespace FxiaokeSDK.Console
                 if (是否已确认 == "option1") //过滤已确认
                     continue;
 
-                var 可结算日期 = DateTime.Now.Date.ToUnixStamp(); //field_dB02P__c
+                var 可结算日期 = settleTime.ToUnixStamp(); //field_dB02P__c
                 var 业务管理确认时间 = DateTime.Now.ToUnixStamp(); //field_C46uu__c
                 var 已确认 = "option1"; //field_w7706__c
 
