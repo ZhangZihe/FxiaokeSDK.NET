@@ -116,7 +116,7 @@
     <Compile Include="Response\CrmObjectDescribeResponse.cs" />
     <Compile Include="Response\CrmObjectListResponse.cs" />
     <Compile Include="Response\CrmQueryAreaResponse.cs" />
-    <Compile Include="Response\CrmTeamAddResponse.cs" />
+    <Compile Include="Response\CrmTeamGetResponse.cs" />
     <Compile Include="Response\DepartmentDetailResponse.cs" />
     <Compile Include="Response\DepartmentListResponse.cs" />
     <Compile Include="Response\JsApiTicketGetResponse.cs" />

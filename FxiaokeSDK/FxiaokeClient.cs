@@ -94,9 +94,9 @@ namespace FxiaokeSDK
             return Execute<CrmTeamAddRequest, BaseResponse>("/cgi/crm/team/add", request);
         }
 
-        public ApiResult<CrmTeamAddResponse> Execute(CrmTeamGetRequest request)
+        public ApiResult<CrmTeamGetResponse> Execute(CrmTeamGetRequest request)
         {
-            return Execute<CrmTeamGetRequest, CrmTeamAddResponse>("/cgi/crm/team/get", request);
+            return Execute<CrmTeamGetRequest, CrmTeamGetResponse>("/cgi/crm/team/get", request);
         }
 
         public ApiResult<BaseResponse> Execute(CrmTeamDeleteRequest request)
