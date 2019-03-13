@@ -58,6 +58,7 @@
     <Compile Include="Request\AppAccessTokenGetRequest.cs" />
     <Compile Include="Request\BaseCgiRequest.cs" />
     <Compile Include="Request\CorpAccessTokenGetRequest.cs" />
+    <Compile Include="Request\CrmAccountReturnRequest.cs" />
     <Compile Include="Request\CrmApprovalInstanceGetRequest.cs" />
     <Compile Include="Request\CrmApprovalInstancesQueryRequest.cs" />
     <Compile Include="Request\CrmApprovalTaskActionRequest.cs" />

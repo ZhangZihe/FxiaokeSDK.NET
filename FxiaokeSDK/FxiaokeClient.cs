@@ -108,6 +108,12 @@ namespace FxiaokeSDK
             return Execute<CrmTeamDeleteRequest, BaseResponse>("/cgi/crm/team/delete", request);
         }
 
+        public ApiResult<BaseResponse> Excute(CrmAccountReturnRequest request)
+        {
+            return Execute<CrmAccountReturnRequest, BaseResponse>("/cgi/crm/data/account/return", request);
+        }
+
+
         #endregion
 
 
