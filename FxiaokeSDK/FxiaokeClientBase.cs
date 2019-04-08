@@ -27,7 +27,7 @@ namespace FxiaokeSDK
             var url = string.Concat(FxiaokeConfig.BaseUrl, api);
             Request = WebRequest.Create(url).AsHttpWebRequest()
                 .SetRequestObjWithJson(jsonParam)
-                .SetTimeout(10 * 1000);
+                .SetTimeout(30 * 1000);
 
             try
             {
