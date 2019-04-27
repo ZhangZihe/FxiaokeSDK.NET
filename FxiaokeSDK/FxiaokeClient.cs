@@ -113,6 +113,11 @@ namespace FxiaokeSDK
             return Execute<CrmAccountReturnRequest, BaseResponse>("/cgi/crm/data/account/return", request);
         }
 
+        public ApiResult<BaseResponse> Excute(CrmDataChangeSalesStageRequest request)
+        {
+            return Execute<CrmDataChangeSalesStageRequest, BaseResponse>("/cgi/crm/data/changeSalesStage", request);
+        }
+
 
         #endregion
 

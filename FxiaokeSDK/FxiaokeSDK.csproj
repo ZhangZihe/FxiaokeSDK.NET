@@ -64,6 +64,7 @@
     <Compile Include="Request\CrmApprovalTaskActionRequest.cs" />
     <Compile Include="Request\CrmCountryAreaOptionsGetRequest.cs" />
     <Compile Include="Request\CrmDataChangeOwnerRequest.cs" />
+    <Compile Include="Request\CrmDataChangeSalesStageRequest.cs" />
     <Compile Include="Request\CrmDataCreateRequest.cs" />
     <Compile Include="Request\CrmDataCreateV2Request.cs" />
     <Compile Include="Request\CrmDataDeleteRequest.cs" />
