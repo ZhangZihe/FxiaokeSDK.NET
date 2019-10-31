@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FxiaokeSDK.Response;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace FxiaokeSDK.Console
 {
@@ -120,19 +121,19 @@ namespace FxiaokeSDK.Console
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        public static void Check()
+        public static void Check(DateTime month)
         {
             var size = 100;
             for (var page = 1; page <= 10; page++)
             {
-                Check((page - 1) * size, size);
+                Check(month, (page - 1) * size, size);
             }
         }
 
-        public static void Check(int offset, int limit)
+        public static void Check(DateTime month, int offset, int limit)
         {
             //分页查出当月订单
-            var orderResult = QueryOrderOfTheMonth(offset, limit);
+            var orderResult = QueryOrderOfTheMonth(month, offset, limit);
             if (!orderResult.Success)
             {
                 System.Console.WriteLine($"查询当月订单失败,errorMsg:{orderResult.Message}");
@@ -151,9 +152,9 @@ namespace FxiaokeSDK.Console
             {
                 //var index = orderList.IndexOf(order) + 1;
                 //if (index % 10 == 0)
-                //    System.Console.WriteLine($"当前处理:{index}/{orderList.Count}"); 
-                
-                if(order["order_status"].ToString() != "7")
+                //    System.Console.WriteLine($"当前处理:{index}/{orderList.Count}");
+
+                if (order["order_status"].ToString() != "7")
                 {
                     //System.Console.WriteLine($"订单{order["name"].ToString()}不是已确认订单不创建业绩结算单");
                     continue;
@@ -166,27 +167,27 @@ namespace FxiaokeSDK.Console
                     continue;
                 }
 
+                //查出订单的业绩结算单
+                var performanceResult = QueryPerformance(order);
+                if (!performanceResult.Success)
+                {
+                    System.Console.WriteLine(
+                        $"订单{order["name"].ToString()}查询业绩结算单失败,errorMsg:{performanceResult.Message}");
+                    continue;
+                }
+
                 //计算出订单业绩结算金额
                 var amount = CalculateAmount(order, out string msg);
                 if (amount == decimal.Zero)
-                {                    
-                    //System.Console.WriteLine($"计算订单{order["name"].ToString()}金额为0不创建业绩结算单");
+                {            
+                    if (performanceResult.Response.Datas.Count > 0)
+                        System.Console.WriteLine($"计算订单{order["name"].ToString()}金额为0不创建业绩结算单");
                     continue;
                 }
                    
                 if (!string.IsNullOrWhiteSpace(msg))
                 {
                     System.Console.WriteLine($"计算订单{order["name"].ToString()}业绩失败,errorMsg:{msg}");
-                    continue;
-                }
-                //查出订单的业绩结算单
-
-                var performanceResult = QueryPerformance(order);
-
-                if (!performanceResult.Success)
-                {
-                    System.Console.WriteLine(
-                        $"订单{order["name"].ToString()}查询业绩结算单失败,errorMsg:{performanceResult.Message}");
                     continue;
                 }
 
@@ -211,14 +212,12 @@ namespace FxiaokeSDK.Console
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        private static ApiResult<CrmDataQueryResponse> QueryOrderOfTheMonth(int offset,int limit)
+        private static ApiResult<CrmDataQueryResponse> QueryOrderOfTheMonth(DateTime month, int offset,int limit)
         {
-            var now = DateTime.Now;
-            var firstDayOfTheMonth=new DateTime(DateTime.Now.Year,now.Month,1);
-            var nextMonth = now.Month == 12
-                ? new DateTime(DateTime.Now.Year + 1, 1, 1)
-                : new DateTime(DateTime.Now.Year, now.Month + 1, 1);
-            var lastDayOfTheMonth = nextMonth.Date.AddDays(-1).AddHours(23).AddMinutes(59).AddMilliseconds(999);
+            var now = month;
+            var firstDayOfTheMonth = new DateTime(now.Year, now.Month, 1);
+            var nextMonth = firstDayOfTheMonth.AddMonths(1).AddMilliseconds(-1);
+
             var result = Client.Execute(new CrmDataQueryRequest()
             {
                 ApiName = "SalesOrderObj",
@@ -235,6 +234,7 @@ namespace FxiaokeSDK.Console
                         {
                             Conditions = new JObject
                             {
+                                ["record_type"] = "record_fo0Ke__c",
                                 ["order_status"] = "7"
                             }
                         }
@@ -245,7 +245,7 @@ namespace FxiaokeSDK.Console
                         {
                             ["fieldName"] = "create_time",
                             ["from"] = firstDayOfTheMonth.ToUnixStamp(),
-                            ["to"] = lastDayOfTheMonth.ToUnixStamp()
+                            ["to"] = nextMonth.ToUnixStamp()
                         }
                     }
                 }
@@ -271,7 +271,7 @@ namespace FxiaokeSDK.Console
                 SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
                 {
                     Offset = 0,
-                    Limit = 1000,
+                    Limit = 100,
                     Conditions =new List<CrmDataQueryRequest.CrmDataCondition>()
                     {
                         new CrmDataQueryRequest.CrmDataCondition()
@@ -372,7 +372,8 @@ namespace FxiaokeSDK.Console
                         {
                             Conditions = new JObject()
                             {
-                                ["field_jEU08__c"] = obj["_id"]
+                                ["field_jEU08__c"] = obj["_id"],
+                                ["life_status"] = "normal",
                             }
                         }
                     }
@@ -381,5 +382,79 @@ namespace FxiaokeSDK.Console
             return result;
         }
 
+
+        public static void QueryAccount()
+        {
+            var relations = File.ReadAllLines("F://客户UID对应关系.csv").Select(x =>
+            {
+                var arr = x.Split(',');
+                return new { supplierid = arr[0], accountid = arr[1] };
+            });
+            var categories = File.ReadAllLines("F://客户类目分布.csv", Encoding.Default).Select(x =>
+            {
+                var arr = x.Split(',');
+                return new { category = arr[0], accountName = arr[1] };
+            });
+
+            System.Console.WriteLine(relations.Count());
+            System.Console.WriteLine(categories.Count());
+
+            var count = 0;
+            var client = new FxiaokeClient();
+            var accountRel = new List<Tuple<string, string, string>>();
+            foreach(var x in categories)
+            {
+                if (count++ % 100 == 0)
+                {
+                    Init();
+                    System.Console.WriteLine($"已执行{count}/{categories.Count()}个");
+                }
+
+                var request = new CrmDataQueryRequest()
+                {
+                    CorpAccessToken = CorpAccessToken,
+                    CorpId = CorpId,
+                    CurrentOpenUserId = DefaultOpenUserId,
+                    ApiName = "AccountObj",
+                    SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                    {
+                        Offset = 0,
+                        Limit = 10,
+                        Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                        {
+                            new CrmDataQueryRequest.CrmDataCondition()
+                            {
+                                Conditions = new JObject
+                                {
+                                    ["name"] = x.accountName,
+                                    ["record_type"] = "default__c"
+                                }
+                            }
+                        }
+                    }
+
+                };
+                var result = client.Execute(request);
+                if (!result.Success)
+                {
+                    System.Console.WriteLine(x.accountName + "|" + result.Message);
+                    File.AppendAllText("F://账号ID对应关系.csv", $"{x.category},{x.accountName},{result.Message}\r\n");
+                    accountRel.Add(Tuple.Create(x.category, x.accountName, result.Message));
+                }
+                File.AppendAllText("F://账号ID对应关系.csv", $"{x.category},{x.accountName},{result.Response?.Datas?.FirstOrDefault()?["_id"]?.ToString()}\r\n");
+                accountRel.Add(Tuple.Create(x.category, x.accountName, result.Response?.Datas?.FirstOrDefault()?["_id"]?.ToString()));
+            }
+
+            File.WriteAllLines("F://账号ID对应关系-copy.csv", accountRel.Select(x => $"{x.Item1},{x.Item2},{x.Item3}"));
+
+            System.Console.WriteLine(accountRel.Count());
+            var newxls = new List<string>();
+            foreach(var item in accountRel)
+            {
+                newxls.Add($"{item.Item1},{item.Item2},{relations.FirstOrDefault(x => x.accountid == item.Item3)?.supplierid}");
+            }
+
+            File.WriteAllLines("F://类目商家ID统计.csv", newxls);
+        }
     }
 }
