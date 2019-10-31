@@ -78,6 +78,10 @@ namespace FxiaokeSDK
         {
             return Execute<UserGetRequest, UserGetResponse>("/cgi/user/get", request);
         }
+        public ApiResult<UserListResponse> Execute(UserListRequest request)
+        {
+            return Execute<UserListRequest, UserListResponse>("/cgi/user/list", request);
+        }
 
         public ApiResult<DepartmentDetailResponse> Execute(DepartmentDetailRequest request)
         {
@@ -94,15 +98,26 @@ namespace FxiaokeSDK
             return Execute<CrmTeamAddRequest, BaseResponse>("/cgi/crm/team/add", request);
         }
 
-        public ApiResult<CrmTeamAddResponse> Execute(CrmTeamGetRequest request)
+        public ApiResult<CrmTeamGetResponse> Execute(CrmTeamGetRequest request)
         {
-            return Execute<CrmTeamGetRequest, CrmTeamAddResponse>("/cgi/crm/team/get", request);
+            return Execute<CrmTeamGetRequest, CrmTeamGetResponse>("/cgi/crm/team/get", request);
         }
 
         public ApiResult<BaseResponse> Execute(CrmTeamDeleteRequest request)
         {
             return Execute<CrmTeamDeleteRequest, BaseResponse>("/cgi/crm/team/delete", request);
         }
+
+        public ApiResult<BaseResponse> Excute(CrmAccountReturnRequest request)
+        {
+            return Execute<CrmAccountReturnRequest, BaseResponse>("/cgi/crm/data/account/return", request);
+        }
+
+        public ApiResult<BaseResponse> Excute(CrmDataChangeSalesStageRequest request)
+        {
+            return Execute<CrmDataChangeSalesStageRequest, BaseResponse>("/cgi/crm/data/changeSalesStage", request);
+        }
+
 
         #endregion
 

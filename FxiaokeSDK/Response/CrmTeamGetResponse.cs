@@ -2,7 +2,7 @@
 
 namespace FxiaokeSDK.Response
 {
-    public class CrmTeamAddResponse : BaseResponse
+    public class CrmTeamGetResponse : BaseResponse
     {
         public TeamObject Data { get; set; }
         public class TeamObject

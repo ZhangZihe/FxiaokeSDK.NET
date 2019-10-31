@@ -22,9 +22,10 @@ namespace FxiaokeSDK.Test
         [TestInitialize]
         public void Setup()
         {
-            FxiaokeConfig.AppId = "FSAID_1317d08";
-            FxiaokeConfig.AppSecret = "b2b75ca5885c47a18cc7724458b56c5c";
-            FxiaokeConfig.PermanentCode = "1E1D1E3108E008A52EB7EBACB2779A28";
+
+            FxiaokeConfig.AppId = "FSAID_1317cf4";
+            FxiaokeConfig.AppSecret = "7faded1267ba492aa3eafe1aae12e86e";
+            FxiaokeConfig.PermanentCode = "4EB0845137A6411E69850DFC5A94BB1E";
 
             var client = new FxiaokeClient();
             var result0 = client.Execute(new CorpAccessTokenGetRequest());
@@ -120,7 +121,7 @@ namespace FxiaokeSDK.Test
                     }
                 }
             };
-            
+
             var result = client.Execute(request);
             Assert.IsTrue(result.Success, result.Message);
         }
@@ -173,6 +174,24 @@ namespace FxiaokeSDK.Test
             var json = JsonConvert.SerializeObject(request);
             var result = client.Execute(request);
             Assert.IsTrue(result.Success, result.Message);
+        }
+        [TestMethod]
+        public void SendMessage()
+        {
+            var client = new FxiaokeClient();
+            var request = new AppMessageSendRequest
+            {
+                ServiceId = "FSAID_bec70df",
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                ToUser = new List<string>() { "FSUID_DEB7D1E884217C1868AC2128BF6F64FF" },
+                MsgType = "text",
+                Text = new MessageSendRequest.MessageText
+                {
+                    Content = "测试数据",
+                },
+            };
+            var result = client.Execute(request);
         }
 
         [TestMethod]
@@ -276,8 +295,8 @@ namespace FxiaokeSDK.Test
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
                 TaskId = "5ba34e35cc9da3a0693d10fb",
-                ActionType ="agree",
-                Opinion ="同意"
+                ActionType = "agree",
+                Opinion = "同意"
             };
             var result = client.Execute(request);
             Assert.IsTrue(result.Success, result.Message);
@@ -353,7 +372,7 @@ namespace FxiaokeSDK.Test
                     { "mobile2", item["mobile2"]?.ToString() },
                     { "mobile3", item["mobile3"]?.ToString() },
                 }.Where(x => !string.IsNullOrWhiteSpace(x.Value)).ToList();
-                
+
                 foreach (var param in paramPair)
                 {
                     var similarContactResult = QueryData("ContactObj", new JObject
@@ -370,7 +389,7 @@ namespace FxiaokeSDK.Test
 
             var accountNames = new List<string>();
             var owners = new List<string>();
-            foreach(var item in accountIds)
+            foreach (var item in accountIds)
             {
                 var accountReuslt = QueryData("AccountObj", new JObject
                 {
@@ -383,6 +402,25 @@ namespace FxiaokeSDK.Test
                 accountNames.Add(accountReuslt?.FirstOrDefault()?["name"]?.ToString());
             }
             var names = string.Join(",", accountNames);
+        }
+
+        [TestMethod]
+        public void ChangeSaleStageTest()
+        {
+            var client = new FxiaokeClient();
+
+            var request = new CrmDataChangeSalesStageRequest
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                ApiName = "SaleActionObj",
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
+                OpportunityId = "440a084a95774cc4bb81a6da73bbc647",
+                DataId = "df79c3f84c66455c88cae58ecb8f8464",
+                NextSaleStageId = "9e8bbec5b2284641aeaf5ec42b0ab2ed"
+            };
+
+            var reponse = client.Excute(request);
         }
     }
 }

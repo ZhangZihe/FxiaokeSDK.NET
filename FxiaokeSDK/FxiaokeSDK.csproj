@@ -58,11 +58,13 @@
     <Compile Include="Request\AppAccessTokenGetRequest.cs" />
     <Compile Include="Request\BaseCgiRequest.cs" />
     <Compile Include="Request\CorpAccessTokenGetRequest.cs" />
+    <Compile Include="Request\CrmAccountReturnRequest.cs" />
     <Compile Include="Request\CrmApprovalInstanceGetRequest.cs" />
     <Compile Include="Request\CrmApprovalInstancesQueryRequest.cs" />
     <Compile Include="Request\CrmApprovalTaskActionRequest.cs" />
     <Compile Include="Request\CrmCountryAreaOptionsGetRequest.cs" />
     <Compile Include="Request\CrmDataChangeOwnerRequest.cs" />
+    <Compile Include="Request\CrmDataChangeSalesStageRequest.cs" />
     <Compile Include="Request\CrmDataCreateRequest.cs" />
     <Compile Include="Request\CrmDataCreateV2Request.cs" />
     <Compile Include="Request\CrmDataDeleteRequest.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Request\OpenIdGetRequest.cs" />
     <Compile Include="Request\UnidBatchGetRequest.cs" />
     <Compile Include="Request\UnidGetRequest.cs" />
+    <Compile Include="Request\UserListRequest.cs" />
     <Compile Include="Request\UserSimpleListRequest.cs" />
     <Compile Include="Response\AppAccessTokenGetResponse.cs" />
     <Compile Include="Response\CrmApprovalInstanceGetResponse.cs" />
@@ -116,7 +119,7 @@
     <Compile Include="Response\CrmObjectDescribeResponse.cs" />
     <Compile Include="Response\CrmObjectListResponse.cs" />
     <Compile Include="Response\CrmQueryAreaResponse.cs" />
-    <Compile Include="Response\CrmTeamAddResponse.cs" />
+    <Compile Include="Response\CrmTeamGetResponse.cs" />
     <Compile Include="Response\DepartmentDetailResponse.cs" />
     <Compile Include="Response\DepartmentListResponse.cs" />
     <Compile Include="Response\JsApiTicketGetResponse.cs" />
@@ -127,6 +130,7 @@
     <Compile Include="Response\UnidGetResponse.cs" />
     <Compile Include="Response\MediaUploadResponse.cs" />
     <Compile Include="Response\UserGetResponse.cs" />
+    <Compile Include="Response\UserListResponse.cs" />
     <Compile Include="Response\UserSimpleListResponse.cs" />
   </ItemGroup>
   <ItemGroup>
