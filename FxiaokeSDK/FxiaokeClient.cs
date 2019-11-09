@@ -129,57 +129,9 @@ namespace FxiaokeSDK
             return Execute<CrmCountryAreaOptionsGetRequest, CrmCountryAreaOptionsGetResponse>("/cgi/crm/countryAreaOptions/get", request);
         }
 
-        public ApiResult<BaseResponse> Execute(CrmDataChangeOwnerRequest request)
-        {
-            return Execute<CrmDataChangeOwnerRequest, BaseResponse>("/cgi/crm/data/changeOwner", request);
-        }
-
-        public ApiResult<CrmDataCreateResponse> Execute(CrmDataCreateRequest request)
-        {
-            return Execute<CrmDataCreateRequest, CrmDataCreateResponse>("/cgi/crm/data/create", request);
-        }
-
-        public ApiResult<BaseResponse> Execute(CrmDataDeleteRequest request)
-        {
-            return Execute<CrmDataDeleteRequest, BaseResponse>("/cgi/crm/data/delete", request);
-        }
-
-        public ApiResult<BaseResponse> Execute(CrmDataDropRequest request)
-        {
-            return Execute<CrmDataDropRequest, BaseResponse>("/cgi/crm/data/drop", request);
-        }
-
-        public ApiResult<CrmDataGetResponse> Execute(CrmDataGetRequest request)
-        {
-            return Execute<CrmDataGetRequest, CrmDataGetResponse>("/cgi/crm/data/get", request);
-        }
-        public ApiResult<CrmDataQueryResponse> Execute(CrmDataQueryRequest request)
-        {
-            return Execute<CrmDataQueryRequest, CrmDataQueryResponse>("/cgi/crm/data/query", request);
-        }
-
         public ApiResult<CrmQueryAreaResponse> Execute(CrmQueryAreaRequest request)
         {
             return Execute<CrmQueryAreaRequest, CrmQueryAreaResponse>("/cgi/crm/countryAreaOptions/get", request);
-        }
-        public ApiResult<BaseResponse> Execute(CrmDataRecoverRequest request)
-        {
-            return Execute<CrmDataRecoverRequest, BaseResponse>("/cgi/crm/data/recover", request);
-        }
-
-        public ApiResult<BaseResponse> Execute(CrmDataUpdateRequest request)
-        {
-            return Execute<CrmDataUpdateRequest, BaseResponse>("/cgi/crm/data/update", request);
-        }
-
-        public ApiResult<CrmObjectDescribeResponse> Execute(CrmObjectDescribeRequest request)
-        {
-            return Execute<CrmObjectDescribeRequest, CrmObjectDescribeResponse>("/cgi/crm/object/describe", request);
-        }
-
-        public ApiResult<CrmObjectListResponse> Execute(CrmObjectListRequest request)
-        {
-            return Execute<CrmObjectListRequest, CrmObjectListResponse>("/cgi/crm/object/list", request);
         }
 
         #endregion
@@ -187,9 +139,19 @@ namespace FxiaokeSDK
 
         #region CRM - CRM基础接口V2
 
-        public ApiResult<BaseResponse> Execute(CrmDataCreateV2Request request)
+        public ApiResult<CrmObjectDescribeV2Response> Execute(CrmObjectDescribeV2Request request)
         {
-            return Execute<CrmDataCreateV2Request, BaseResponse>("/cgi/crm/v2/data/create", request);
+            return Execute<CrmObjectDescribeV2Request, CrmObjectDescribeV2Response>("/cgi/crm/v2/object/describe", request);
+        }
+
+        public ApiResult<CrmObjectListV2Response> Execute(CrmObjectListV2Request request)
+        {
+            return Execute<CrmObjectListV2Request, CrmObjectListV2Response>("/cgi/crm/v2/object/list", request);
+        }
+
+        public ApiResult<CrmDataCreateV2Response> Execute(CrmDataCreateV2Request request)
+        {
+            return Execute<CrmDataCreateV2Request, CrmDataCreateV2Response>("/cgi/crm/v2/data/create", request);
         }
 
         public ApiResult<BaseResponse> Execute(CrmDataUpdateV2Request request)
@@ -225,6 +187,51 @@ namespace FxiaokeSDK
         public ApiResult<BaseResponse> Execute(CrmDataChangeOwnerV2Request request)
         {
             return Execute<CrmDataChangeOwnerV2Request, BaseResponse>("/cgi/crm/v2/data/changeOwner", request);
+        }
+
+        #endregion
+
+
+        #region CRM - CRM对象接口V2(自定义对象)
+
+        public ApiResult<CrmCustomDataCreateV2Response> Execute(CrmCustomDataCreateV2Request request)
+        {
+            return Execute<CrmCustomDataCreateV2Request, CrmCustomDataCreateV2Response>("/cgi/crm/custom/data/create", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(CrmCustomDataUpdateV2Request request)
+        {
+            return Execute<CrmCustomDataUpdateV2Request, BaseResponse>("/cgi/crm/custom/data/update", request);
+        }
+
+        public ApiResult<CrmCustomDataQueryV2Response> Execute(CrmCustomDataQueryV2Request request)
+        {
+            return Execute<CrmCustomDataQueryV2Request, CrmCustomDataQueryV2Response>("/cgi/crm/custom/data/query", request);
+        }
+
+        public ApiResult<CrmCustomDataGetV2Response> Execute(CrmCustomDataGetV2Request request)
+        {
+            return Execute<CrmCustomDataGetV2Request, CrmCustomDataGetV2Response>("/cgi/crm/custom/data/get", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(CrmCustomDataInvalidV2Request request)
+        {
+            return Execute<CrmCustomDataInvalidV2Request, BaseResponse>("/cgi/crm/custom/data/invalid", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(CrmCustomDataRecoverV2Request request)
+        {
+            return Execute<CrmCustomDataRecoverV2Request, BaseResponse>("/cgi/crm/custom/data/recover", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(CrmCustomDataDeleteV2Request request)
+        {
+            return Execute<CrmCustomDataDeleteV2Request, BaseResponse>("/cgi/crm/custom/data/delete", request);
+        }
+
+        public ApiResult<BaseResponse> Execute(CrmCustomDataChangeOwnerV2Request request)
+        {
+            return Execute<CrmCustomDataChangeOwnerV2Request, BaseResponse>("/cgi/crm/custom/data/changeOwner", request);
         }
 
         #endregion

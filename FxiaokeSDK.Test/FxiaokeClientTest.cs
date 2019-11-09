@@ -85,7 +85,7 @@ namespace FxiaokeSDK.Test
         public void CrmObjectDescribeTest()
         {
             var client = new FxiaokeClient();
-            var result = client.Execute(new CrmObjectDescribeRequest
+            var result = client.Execute(new CrmObjectDescribeV2Request
             {
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
@@ -98,63 +98,46 @@ namespace FxiaokeSDK.Test
         [TestMethod]
         public void CrmDataQueryTest()
         {
-            var client = new FxiaokeClient();
-            var request = new CrmDataQueryRequest()
-            {
-                CorpAccessToken = CorpAccessToken,
-                CorpId = CorpId,
-                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
-                ApiName = "AccountObj",
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
-                {
-                    Offset = 0,
-                    Limit = 1000,
-                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
-                    {
-                        new CrmDataQueryRequest.CrmDataCondition()
-                        {
-                            Conditions = new JObject
-                            {
-                                ["name"] = "彤星旗舰店"
-                            }
-                        }
-                    }
-                }
-            };
+            //var client = new FxiaokeClient();
+            //var request = new CrmDataQueryRequest()
+            //{
+            //    CorpAccessToken = CorpAccessToken,
+            //    CorpId = CorpId,
+            //    CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+            //    ApiName = "AccountObj",
+            //    SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+            //    {
+            //        Offset = 0,
+            //        Limit = 1000,
+            //        Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+            //        {
+            //            new CrmDataQueryRequest.CrmDataCondition()
+            //            {
+            //                Conditions = new JObject
+            //                {
+            //                    ["name"] = "彤星旗舰店"
+            //                }
+            //            }
+            //        }
+            //    }
+            //};
 
-            var result = client.Execute(request);
-            Assert.IsTrue(result.Success, result.Message);
-        }
-
-        [TestMethod]
-        public void CrmDataQueryV2Test()
-        {
-            var client = new FxiaokeClient();
-            var result = client.Execute(new CrmDataQueryV2Request
-            {
-                CorpAccessToken = CorpAccessToken,
-                CorpId = CorpId,
-                CurrentOpenUserId = "FSUID_E52ABBD03C50251FC961C853B4A3C6A5",
-                Data = new CrmDataQueryV2Request.CrmDataQueryData
-                {
-                    DataObjectApiName = "PriceBookObj",
-                }
-            });
-            Assert.IsTrue(result.Success, result.Message);
+            //var result = client.Execute(request);
+            //Assert.IsTrue(result.Success, result.Message);
         }
 
         [TestMethod]
         public void CrmDataUpdateTest()
         {
             var client = new FxiaokeClient();
-            var request = new CrmDataUpdateRequest()
+            var request = new CrmDataUpdateV2Request()
             {
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
                 CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
-                ApiName = "AccountObj",
-                DataId = "433538f175e94e00ba9ec350bfc65fb6",
-                Data = new { owner = new List<string> { "FSUID_FACEAA83D4F0EE9591CDB911563EECBC" }, owner_department = "技术部" }
+                //ApiName = "AccountObj",
+                //DataId = "433538f175e94e00ba9ec350bfc65fb6",
+                //Data = new { owner = new List<string> { "FSUID_FACEAA83D4F0EE9591CDB911563EECBC" }, owner_department = "技术部" }
             };
 
             var result = client.Execute(request);
@@ -198,41 +181,42 @@ namespace FxiaokeSDK.Test
         public void GetSalesOrderObjTest()
         {
             var client = new FxiaokeClient();
-            var request = new CrmDataQueryRequest()
+            var request = new CrmDataQueryV2Request()
             {
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
                 CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98",
-                ApiName = "SalesOrderObj",
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                Data = new CrmDataQueryV2Request.CrmDataQueryData
                 {
-                    Offset = 0,
-                    Limit = 1000,
-                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    DataObjectApiName = "SalesOrderObj",
+                    Search_query_info = new CrmDataQueryV2Request.CrmDataSearchQueryInfo
                     {
-                        new CrmDataQueryRequest.CrmDataCondition()
-                        {
-                            Conditions = new JObject
+                        Offset = 0,
+                        Limit = 1000,
+                        Filters = new List<CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter>
                             {
-                                ["name"] = "O20180906-0007"
+                                new CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter
+                                {
+                                    Field_name = "name",
+                                    Field_values = new List<string>{ "O20180906-0007" },
+                                    Operator = "EQ"
+                                }
+                            },
+                        Orders = new List<CrmDataQueryV2Request.CrmDataSearchQueryInfoOrder>
+                        {
+                            new CrmDataQueryV2Request.CrmDataSearchQueryInfoOrder
+                            {
+                                IsAsc = false,
+                                FieldName = "create_time"
                             }
                         }
                     }
-                    //,Orders = new List<CrmDataQueryRequest.CrmDataOrder>()
-                    //{
-                    //    new CrmDataQueryRequest.CrmDataOrder()
-                    //    {
-                    //        Ascending = false,
-                    //        Field = "create_time"
-                    //    }
-                    //}
                 }
-
             };
             var json = JsonConvert.SerializeObject(request);
             var result = client.Execute(request);
             long asd = 0;
-            asd = long.Parse(result.Response.Datas[0]["order_time"].ToString());
+            asd = long.Parse(result.Response.Data.DataList[0]["order_time"].ToString());
             var time = new DateTime(asd);
             Assert.IsTrue(result.Success, result.Message);
         }
@@ -326,27 +310,28 @@ namespace FxiaokeSDK.Test
 
         public List<JObject> QueryData(string apiName, JObject param, int limit, int offset = 0)
         {
-            var client = new FxiaokeClient();
-            var result = client.Execute(new CrmDataQueryRequest()
-            {
-                CorpAccessToken = CorpAccessToken,
-                CorpId = CorpId,
-                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
-                ApiName = apiName,
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
-                {
-                    Offset = offset,
-                    Limit = limit,
-                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
-                    {
-                        new CrmDataQueryRequest.CrmDataCondition()
-                        {
-                            Conditions = param
-                        }
-                    }
-                }
-            });
-            return result.Response.Datas;
+            return new List<JObject>();
+            //var client = new FxiaokeClient();
+            //var result = client.Execute(new CrmDataQueryRequest()
+            //{
+            //    CorpAccessToken = CorpAccessToken,
+            //    CorpId = CorpId,
+            //    CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+            //    ApiName = apiName,
+            //    SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+            //    {
+            //        Offset = offset,
+            //        Limit = limit,
+            //        Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+            //        {
+            //            new CrmDataQueryRequest.CrmDataCondition()
+            //            {
+            //                Conditions = param
+            //            }
+            //        }
+            //    }
+            //});
+            //return result.Response.Datas;
         }
 
         [TestMethod]
@@ -422,5 +407,385 @@ namespace FxiaokeSDK.Test
 
             var reponse = client.Excute(request);
         }
+
+        #region  CRM对象接口V2
+
+        [TestMethod]
+        public void CrmObjectListV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmObjectListV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_0642D2A6D0AC2FEDF2BF0930E9469F98"
+            });
+
+        }
+
+        [TestMethod]
+        public void CrmDataQueryV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmDataQueryV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmDataQueryV2Request.CrmDataQueryData
+                {
+                    DataObjectApiName = "LeadsObj",
+                    Search_query_info = new CrmDataQueryV2Request.CrmDataSearchQueryInfo
+                    {
+                        Offset = 0,
+                        Limit = 100,
+                        Filters = new List<CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter>
+                        {
+                            new CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter
+                            {
+                                Field_name = "name",
+                                Field_values = new List<string>{ "聚客通官网注册用户" },
+                                Operator = "EQ"
+                            },
+                            new CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter
+                            {
+                                Field_name = "company",
+                                Field_values = new List<string>{ "富裕" },
+                                Operator = "EQ"
+                            }
+                        }
+                    }
+                }
+            });
+            var department = result.Response.Data.DataList[0]["mobile"];
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        [TestMethod]
+        public void CrmDataCreateV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmDataCreateV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmDataCreateV2Request.CrmDataCreateData
+                {
+                    Object_data = new JObject
+                    {
+                        ["dataObjectApiName"] = "LeadsObj",
+                        ["name"] = "测试数据勿删",
+                        ["leads_pool_id"] = "7a22188ad3ec408a86526c6850034106",
+                        ["mobile"] = "12346578900",
+                        ["source"] = "11"
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmDateGetV2Test()
+        {
+            var client = new FxiaokeClient();
+            var response = client.Execute(new CrmDataGetV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmDataGetV2Request.CrmDataGetV2Data
+                {
+                    DataObjectApiName = "LeadsObj",
+                    ObjectDataId = "5dc4cefa038eaa0001c0586f"
+                }
+            });
+            var name = response.Response.Data["name"];
+        }
+
+        [TestMethod]
+        public void CrmDataUpdateV2Test()
+        {
+            var client = new FxiaokeClient();
+            var response = client.Execute(new CrmDataUpdateV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmDataUpdateV2Request.CrmDataUpdateV2Data
+                {
+                    Object_data = new JObject
+                    {
+                        ["dataObjectApiName"] = "LeadsObj",
+                        ["_id"] = "5dc4cefa038eaa0001c0586f",
+                        ["name"] = "测试数据测试勿删",
+                        ["record_type"] = "record_V417w__c"
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmDataInvalidV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmDataInvalidV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmDataInvalidV2Request.CrmDataInvalidV2Data
+                {
+                    DataObjectApiName = "LeadsObj",
+                    Object_data_id = "5dc4cefa038eaa0001c0586f"
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmDataRecoverV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmDataRecoverV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmDataRecoverV2Request.CrmDataRecoverV2Data
+                {
+                    DataObjectApiName = "LeadsObj",
+                    IdList = new List<string>
+                    {
+                        "5dc4cefa038eaa0001c0586f"
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmDataChangeOwenrV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmDataChangeOwnerV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmDataChangeOwnerV2Request.CrmDataChangeOwnerV2Data
+                {
+                    DataObjectApiName = "LeadsObj",
+                    Data = new List<CrmDataChangeOwnerV2Request.CrmDataChangeOwnerV2DataData>
+                    {
+                        new CrmDataChangeOwnerV2Request.CrmDataChangeOwnerV2DataData
+                        {
+                            ObjectDataId = "5dc4cefa038eaa0001c0586f",
+                            OwnerId = new List<string>
+                            {
+                                "FSUID_FACEAA83D4F0EE9591CDB911563EECBC"
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmDataDeleteV2Test()
+        {
+            var client = new FxiaokeClient();
+            var resule = client.Execute(new CrmDataDeleteV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmDataDeleteV2Request.CrmDataDeleteV2Data
+                {
+                    DataObjectApiName = "LeadsObj",
+                    IdList = new List<string>
+                    {
+                        "5dc4cefa038eaa0001c0586f"
+                    }
+                }
+            });
+        }
+
+        #endregion
+
+        #region  自定义对象接口
+
+        [TestMethod]
+        public void CrmCustomDataQueryV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmCustomDataQueryV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmCustomDataQueryV2Request.CrmCustomDataQueryData
+                {
+                    DataObjectApiName = "object_ZBcAC__c",
+                    Search_query_info = new CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfo
+                    {
+                        Offset = 0,
+                        Limit = 100,
+                        Filters = new List<CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfoFilter>
+                        { }
+                    }
+                }
+            });
+            var a = result.Response.Data.Total;
+            Assert.IsTrue(result.Success, result.Message);
+        }
+
+        //"5dc5316d706c7e0001ea2382"
+        [TestMethod]
+        public void CrmCustomDataCreateV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmCustomDataCreateV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmCustomDataCreateV2Request.CrmCustomDataCreateData
+                {
+                    Object_data = new JObject
+                    {
+                        ["dataObjectApiName"] = "object_0cpq5__c",
+                        ["name"] = "测试",
+                        ["owner"] = new JArray() { "FSUID_FACEAA83D4F0EE9591CDB911563EECBC" }
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmCustomDataUpdateV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmCustomDataUpdateV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmCustomDataUpdateV2Request.CrmCustomDataUpdateData
+                {
+                    Object_data = new JObject
+                    {
+                        ["dataObjectApiName"] = "object_0cpq5__c",
+                        ["_id"] = "5dc5316d706c7e0001ea2382",
+                        ["name"] = "测试数据勿删"
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmCustomDataGetV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmCustomDataGetV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmCustomDataGetV2Request.CrmCustomDataGetV2Data
+                {
+                    DataObjectApiName = "object_0cpq5__c",
+                    ObjectDataId = "5dc5316d706c7e0001ea2382"
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmCustomDataInvalidV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmCustomDataInvalidV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmCustomDataInvalidV2Request.CrmCustomDataInvalidV2Data
+                {
+                    DataObjectApiName = "object_0cpq5__c",
+                    IdList = new List<string>
+                    {
+                        "5dc5316d706c7e0001ea2382"
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmCustomDataRecoverV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmCustomDataRecoverV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmCustomDataRecoverV2Request.CrmCustomDataRecoverV2Data
+                {
+                    DataObjectApiName = "object_0cpq5__c",
+                    IdList = new List<string>
+                    {
+                        "5dc5316d706c7e0001ea2382"
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmCustomDataDeleteV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmCustomDataDeleteV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmCustomDataDeleteV2Request.CrmCustomDataDeleteV2Data
+                {
+                    DataObjectApiName = "object_0cpq5__c",
+                    IdList = new List<string>
+                    {
+                        "5dc5316d706c7e0001ea2382"
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        public void CrmCustomDataChangeOwnerV2Test()
+        {
+            var client = new FxiaokeClient();
+            var result = client.Execute(new CrmCustomDataChangeOwnerV2Request
+            {
+                CorpAccessToken = CorpAccessToken,
+                CorpId = CorpId,
+                CurrentOpenUserId = "FSUID_FACEAA83D4F0EE9591CDB911563EECBC",
+                Data = new CrmCustomDataChangeOwnerV2Request.CrmCustomDataChangeOwnerV2Data
+                {
+                    DataObjectApiName = "object_0cpq5__c",
+                    DataList = new List<CrmCustomDataChangeOwnerV2Request.CrmCustomDataChangeOwnerV2DataData>
+                    {
+                        new CrmCustomDataChangeOwnerV2Request.CrmCustomDataChangeOwnerV2DataData
+                        {
+                            ObjectDataId = "5dc5316d706c7e0001ea2382",
+                            OwnerId = new List<string>
+                            {
+                                "FSUID_FACEAA83D4F0EE9591CDB911563EECBC"
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        #endregion
+
+
     }
 }

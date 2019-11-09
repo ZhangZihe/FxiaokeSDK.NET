@@ -31,30 +31,37 @@ namespace FxiaokeSDK.Console
         public static void Start(DateTime settleTime)
         {
             int size = 100;
-            for(var page = 1; page < 10; page++)
+            for (var page = 1; page < 10; page++)
                 Start(settleTime, (page - 1) * size, size);
         }
 
         public static void Start(DateTime settleTime, int offset, int limit)
         {
-            var result = Client.Execute(new CrmDataQueryRequest
+            var result = Client.Execute(new CrmCustomDataQueryV2Request
             {
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
                 CurrentOpenUserId = DefaultOpenUserId,
-                ApiName = "object_112ft__c",
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                Data = new CrmCustomDataQueryV2Request.CrmCustomDataQueryData
                 {
-                    Offset = offset,
-                    Limit = limit,
-                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    DataObjectApiName = "object_112ft__c",
+                    Search_query_info = new CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfo
                     {
-                        new CrmDataQueryRequest.CrmDataCondition()
+                        Offset = offset,
+                        Limit = limit,
+                        Filters = new List<CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfoFilter>
                         {
-                            Conditions = new JObject
+                            new CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfoFilter
                             {
-                                ["field_w7706__c"] = "jU4rV1qjg", //已确认: 否
-                                ["field_8z4KD__c"] = 0, //待回款金额: 0
+                                Field_name="field_w7706__c",
+                                Field_values=new List<string>{ "jU4rV1qjg" },//已确认: 否
+                                Operator = "EQ"
+                            },
+                            new CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfoFilter
+                            {
+                                Field_name="field_8z4KD__c",
+                                Field_values=new List<string>{ "0" },//待回款金额: 0
+                                Operator = "EQ"
                             }
                         }
                     }
@@ -66,14 +73,14 @@ namespace FxiaokeSDK.Console
                 System.Console.WriteLine($"加载待处理数据失败:{result.Message}");
                 return;
             }
-            if (result.Response.Datas.Count == 0)
+            if (result.Response.Data.Total == 0)
             {
                 System.Console.WriteLine("没有需要处理的数据");
                 return;
             }
 
             var resultMsg = new List<string>();
-            foreach(var item in result.Response.Datas.Take(100))
+            foreach (var item in result.Response.Data.DataList.Take(100))
             {
                 var 业绩结算单 = item["name"].ToString();
                 var 是否已确认 = item["field_w7706__c"].ToString(); //option1: 是, jU4rV1qjg: 否, other: 其他
@@ -94,25 +101,28 @@ namespace FxiaokeSDK.Console
                 var 业务管理确认时间 = DateTime.Now.ToUnixStamp(); //field_C46uu__c
                 var 已确认 = "option1"; //field_w7706__c
 
-                var updateResult = Client.Execute(new CrmDataUpdateRequest
+                var updateResult = Client.Execute(new CrmCustomDataUpdateV2Request
                 {
                     CorpAccessToken = CorpAccessToken,
                     CorpId = CorpId,
                     CurrentOpenUserId = DefaultOpenUserId,
-                    ApiName = "object_112ft__c",
-                    DataId = item["_id"].ToString(),
-                    Data = new
+                    Data = new CrmCustomDataUpdateV2Request.CrmCustomDataUpdateData
                     {
-                        field_dB02P__c = 可结算日期,
-                        field_C46uu__c = 业务管理确认时间,
-                        field_w7706__c = 已确认,
-                    }
+                        Object_data = new
+                        {
+                            dataObjectApiName = "object_112ft__c",
+                            _id = item["_id"].ToString(),
+                            field_dB02P__c = 可结算日期,
+                            field_C46uu__c = 业务管理确认时间,
+                            field_w7706__c = 已确认,
+                        }
+                    }                    
                 });
                 var line = $"{业绩结算单},{updateResult.Success},{updateResult.Message}";
                 resultMsg.Add(line);
                 System.Console.WriteLine(line);
             }
-            System.Console.WriteLine($"已处理完成数:{resultMsg.Count}/{result.Response.Datas.Count}");
+            System.Console.WriteLine($"已处理完成数:{resultMsg.Count}/{result.Response.Data.Total}");
         }
 
         /// <summary>
@@ -139,21 +149,21 @@ namespace FxiaokeSDK.Console
                 return;
             }
 
-            if (orderResult.Response.Datas.Count == 0)
+            if (orderResult.Response.Data.Total == 0)
             {
                 System.Console.WriteLine("没有需要处理的订单数据");
                 return;
             }
 
-            var orderList = orderResult.Response.Datas;
+            var orderList = orderResult.Response.Data.DataList;
 
             foreach (var order in orderList)
             {
                 //var index = orderList.IndexOf(order) + 1;
                 //if (index % 10 == 0)
                 //    System.Console.WriteLine($"当前处理:{index}/{orderList.Count}"); 
-                
-                if(order["order_status"].ToString() != "7")
+
+                if (order["order_status"].ToString() != "7")
                 {
                     //System.Console.WriteLine($"订单{order["name"].ToString()}不是已确认订单不创建业绩结算单");
                     continue;
@@ -169,11 +179,11 @@ namespace FxiaokeSDK.Console
                 //计算出订单业绩结算金额
                 var amount = CalculateAmount(order, out string msg);
                 if (amount == decimal.Zero)
-                {                    
+                {
                     //System.Console.WriteLine($"计算订单{order["name"].ToString()}金额为0不创建业绩结算单");
                     continue;
                 }
-                   
+
                 if (!string.IsNullOrWhiteSpace(msg))
                 {
                     System.Console.WriteLine($"计算订单{order["name"].ToString()}业绩失败,errorMsg:{msg}");
@@ -190,18 +200,18 @@ namespace FxiaokeSDK.Console
                     continue;
                 }
 
-                if (performanceResult.Response.Datas.Count == 0)
+                if (performanceResult.Response.Data.Total == 0)
                 {
                     System.Console.WriteLine($"订单{order["name"].ToString()}查询不到业绩结算单");
                     continue;
                 }
 
-                var performance = performanceResult.Response.Datas[0];
+                var performance = performanceResult.Response.Data.DataList[0];
                 if (amount != decimal.Parse(performance["field_24rnT__c"].ToString()))
                 {
                     System.Console.WriteLine($"订单{order["name"].ToString()}业绩结算单金额和程序计算出的金额不同");
                     continue;
-                }              
+                }
             }
         }
 
@@ -211,41 +221,43 @@ namespace FxiaokeSDK.Console
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        private static ApiResult<CrmDataQueryResponse> QueryOrderOfTheMonth(int offset,int limit)
+        private static ApiResult<CrmDataQueryV2Response> QueryOrderOfTheMonth(int offset, int limit)
         {
             var now = DateTime.Now;
-            var firstDayOfTheMonth=new DateTime(DateTime.Now.Year,now.Month,1);
+            var firstDayOfTheMonth = new DateTime(DateTime.Now.Year, now.Month, 1);
             var nextMonth = now.Month == 12
                 ? new DateTime(DateTime.Now.Year + 1, 1, 1)
                 : new DateTime(DateTime.Now.Year, now.Month + 1, 1);
             var lastDayOfTheMonth = nextMonth.Date.AddDays(-1).AddHours(23).AddMinutes(59).AddMilliseconds(999);
-            var result = Client.Execute(new CrmDataQueryRequest()
+            var result = Client.Execute(new CrmDataQueryV2Request()
             {
-                ApiName = "SalesOrderObj",
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
                 CurrentOpenUserId = DefaultOpenUserId,
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                Data = new CrmDataQueryV2Request.CrmDataQueryData
                 {
-                    Offset = offset,
-                    Limit = limit,
-                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    DataObjectApiName = "SalesOrderObj",
+                    Search_query_info = new CrmDataQueryV2Request.CrmDataSearchQueryInfo
                     {
-                        new CrmDataQueryRequest.CrmDataCondition()
+                        Offset = offset,
+                        Limit = limit,
+                        Filters = new List<CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter>
                         {
-                            Conditions = new JObject
+                            new CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter
                             {
-                                ["order_status"] = "7"
+                                Field_name="order_status",
+                                Field_values=new List<string>{ "7"},
+                                Operator="IN"
+                            },
+                            new CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter
+                            {
+                                Field_name="create_time",
+                                Field_values=new List<string>{
+                                    firstDayOfTheMonth.ToUnixStamp().ToString(),
+                                    lastDayOfTheMonth.ToUnixStamp().ToString()
+                                },
+                                Operator="BETWEEN"
                             }
-                        }
-                    },
-                    RangeConditions = new List<object>()
-                    {
-                        new JObject()
-                        {
-                            ["fieldName"] = "create_time",
-                            ["from"] = firstDayOfTheMonth.ToUnixStamp(),
-                            ["to"] = lastDayOfTheMonth.ToUnixStamp()
                         }
                     }
                 }
@@ -259,28 +271,30 @@ namespace FxiaokeSDK.Console
         /// <param name="obj"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        private static decimal CalculateAmount(JObject obj,out string msg)
+        private static decimal CalculateAmount(JObject obj, out string msg)
         {
             decimal disAmount = 0;
-            var salesOrdersProductResult = Client.Execute(new CrmDataQueryRequest()
+            var salesOrdersProductResult = Client.Execute(new CrmDataQueryV2Request()
             {
-                ApiName = "SalesOrderProductObj",
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
                 CurrentOpenUserId = DefaultOpenUserId,
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                Data = new CrmDataQueryV2Request.CrmDataQueryData
                 {
-                    Offset = 0,
-                    Limit = 1000,
-                    Conditions =new List<CrmDataQueryRequest.CrmDataCondition>()
+                    DataObjectApiName = "SalesOrderProductObj",
+                    Search_query_info = new CrmDataQueryV2Request.CrmDataSearchQueryInfo
                     {
-                        new CrmDataQueryRequest.CrmDataCondition()
+                        Offset = 0,
+                        Limit = 1000,
+                        Filters = new List<CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter>
                         {
-                            Conditions = new JObject()
+                            new CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter
                             {
-                                ["order_id"] = obj["_id"].ToString(),
+                                Field_name = "order_id",
+                                Field_values = new List<string>{ obj["_id"].ToString() },
+                                Operator = "EQ"
                             }
-                        }                      
+                        }
                     }
                 }
             });
@@ -290,30 +304,32 @@ namespace FxiaokeSDK.Console
                 return 0;
             }
 
-            var orderProductList = salesOrdersProductResult.Response.Datas;
+            var orderProductList = salesOrdersProductResult.Response.Data.DataList;
             foreach (var orderProduct in orderProductList)
             {
-                var productResult = Client.Execute(new CrmDataQueryRequest()
+                var productResult = Client.Execute(new CrmDataQueryV2Request()
                 {
-                    ApiName = "ProductObj",
                     CorpAccessToken = CorpAccessToken,
                     CorpId = CorpId,
                     CurrentOpenUserId = DefaultOpenUserId,
-                    SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                    Data = new CrmDataQueryV2Request.CrmDataQueryData
                     {
-                        Limit = 10,
-                        Offset = 0,
-                        Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                        DataObjectApiName = "ProductObj",
+                        Search_query_info = new CrmDataQueryV2Request.CrmDataSearchQueryInfo
                         {
-                            new CrmDataQueryRequest.CrmDataCondition()
+                            Offset = 0,
+                            Limit = 10,
+                            Filters = new List<CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter>
                             {
-                                Conditions = new JObject()
+                                new CrmDataQueryV2Request.CrmDataSearchQueryInfoFilter
                                 {
-                                    ["_id"] = orderProduct["product_id"].ToString()
+                                    Field_name = "_id",
+                                    Field_values = new List<string>{ orderProduct["product_id"].ToString() },
+                                    Operator = "EQ"
                                 }
                             }
-                        }                               
-                    }
+                        }
+                    }                    
                 });
                 if (!productResult.Success)
                 {
@@ -321,13 +337,13 @@ namespace FxiaokeSDK.Console
                     return 0;
                 }
 
-                if (productResult.Response.Datas.Count == 0)
+                if (productResult.Response.Data.Total == 0)
                 {
                     msg = $"订单{obj["name"].ToString()}查询产品失败";
                     return 0;
                 }
 
-                var product = productResult.Response.Datas[0];
+                var product = productResult.Response.Data.DataList[0];
                 if (product["field_x99U7__c"] != null)
                 {
                     decimal.TryParse(product["field_x99U7__c"]?.ToString() ?? "0", out decimal field_x99U7__c);
@@ -354,25 +370,27 @@ namespace FxiaokeSDK.Console
         }
 
 
-        private static ApiResult<CrmDataQueryResponse> QueryPerformance(JObject obj)
+        private static ApiResult<CrmCustomDataQueryV2Response> QueryPerformance(JObject obj)
         {
-            var result = Client.Execute(new CrmDataQueryRequest()
+            var result = Client.Execute(new CrmCustomDataQueryV2Request()
             {
-                ApiName = "object_112ft__c",
                 CorpAccessToken = CorpAccessToken,
                 CorpId = CorpId,
                 CurrentOpenUserId = DefaultOpenUserId,
-                SearchQuery = new CrmDataQueryRequest.CrmDataSearchQuery()
+                Data = new CrmCustomDataQueryV2Request.CrmCustomDataQueryData
                 {
-                    Offset = 0,
-                    Limit = 10,
-                    Conditions = new List<CrmDataQueryRequest.CrmDataCondition>()
+                    DataObjectApiName = "object_112ft__c",
+                    Search_query_info = new CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfo
                     {
-                        new CrmDataQueryRequest.CrmDataCondition()
+                        Offset = 0,
+                        Limit = 10,
+                        Filters = new List<CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfoFilter>
                         {
-                            Conditions = new JObject()
+                            new CrmCustomDataQueryV2Request.CrmCustomDataSearchQueryInfoFilter
                             {
-                                ["field_jEU08__c"] = obj["_id"]
+                                Field_name="field_jEU08__c",
+                                Field_values=new List<string>{ obj["_id"].ToString() },
+                                Operator="EQ"
                             }
                         }
                     }

@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace FxiaokeSDK.Response
 {
-    public class CrmObjectDescribeResponse : BaseResponse
+    public class CrmCustomDataGetV2Response : BaseResponse
     {
-        public JObject ObjectDesc { get; set; }
+        /// <summary>
+        /// 数据
+        /// </summary>
+        public JObject Data { get; set; }
     }
 }

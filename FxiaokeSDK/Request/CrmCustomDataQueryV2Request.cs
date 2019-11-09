@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,7 @@ using System.Threading.Tasks;
 
 namespace FxiaokeSDK.Request
 {
-    /// <summary>
-    /// 详细注释请参照官方文档: https://open.fxiaoke.com/wiki.html#artiId=218
-    /// </summary>
-    public class CrmDataQueryV2Request : BaseCgiRequest
+    public class CrmCustomDataQueryV2Request : BaseCgiRequest
     {
         /// <summary>
         /// 当前操作人的openUserId
@@ -19,9 +17,9 @@ namespace FxiaokeSDK.Request
         /// <summary>
         /// 对象数据map
         /// </summary>
-        public CrmDataQueryData Data { get; set; }
+        public CrmCustomDataQueryData Data { get; set; }
 
-        public class CrmDataQueryData
+        public class CrmCustomDataQueryData
         {
             /// <summary>
             /// 对象的api_name
@@ -33,10 +31,10 @@ namespace FxiaokeSDK.Request
             /// <summary>
             /// 查询条件列表
             /// </summary>
-            public CrmDataSearchQueryInfo Search_query_info { get; set; }
+            public CrmCustomDataSearchQueryInfo Search_query_info { get; set; }
         }
 
-        public class CrmDataSearchQueryInfo
+        public class CrmCustomDataSearchQueryInfo
         {
             /// <summary>
             /// 获取数据条数,默认20,最大值为1000(自定义对象最大值为100)
@@ -51,12 +49,12 @@ namespace FxiaokeSDK.Request
             /// <summary>
             /// 过滤条件列表
             /// </summary>
-            public List<CrmDataSearchQueryInfoFilter> Filters { get; set; }
+            public List<CrmCustomDataSearchQueryInfoFilter> Filters { get; set; }
 
             /// <summary>
             /// 排序
             /// </summary>
-            public List<CrmDataSearchQueryInfoOrder> Orders { get; set; }
+            public List<CrmCustomDataSearchQueryInfoOrder> Orders { get; set; }
 
             /// <summary>
             /// 返回字段列表
@@ -64,7 +62,7 @@ namespace FxiaokeSDK.Request
             public List<string> FieldProjection { get; set; }
         }
 
-        public class CrmDataSearchQueryInfoFilter
+        public class CrmCustomDataSearchQueryInfoFilter
         {
             /// <summary>
             /// 字段名
@@ -79,10 +77,10 @@ namespace FxiaokeSDK.Request
             /// <summary>
             /// 支持操作
             /// </summary>
-            public string Operator { get; set;}
+            public string Operator { get; set; }
         }
 
-        public class CrmDataSearchQueryInfoOrder
+        public class CrmCustomDataSearchQueryInfoOrder
         {
             /// <summary>
             /// 字段名
@@ -94,5 +92,6 @@ namespace FxiaokeSDK.Request
             /// </summary>
             public bool IsAsc { get; set; }
         }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FxiaokeSDK.Request
 {
-    public class CrmDataChangeOwnerRequest : BaseCgiRequest
+    public class CrmObjectDescribeV2Request : BaseCgiRequest
     {
         /// <summary>
         /// 当前操作人的openUserId
@@ -17,15 +17,5 @@ namespace FxiaokeSDK.Request
         /// 对象的api_name
         /// </summary>
         public string ApiName { get; set; }
-
-        /// <summary>
-        /// 数据Id
-        /// </summary>
-        public string DataId { get; set; }
-
-        /// <summary>
-        /// 负责人的openUserId(对于公海中未分配的客户,只能分配给公海管理员和公海成员)   
-        /// </summary>
-        public string OwnerOpenUserId { get; set; }
     }
 }

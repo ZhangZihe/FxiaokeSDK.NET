@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace FxiaokeSDK.Response
 {
-    public class CrmDataGetResponse : BaseResponse
+    public class CrmDataCreateV2Response : BaseResponse
     {
-        public JObject Data { get; set; }
+        public string DataId { get; set; }
     }
 }

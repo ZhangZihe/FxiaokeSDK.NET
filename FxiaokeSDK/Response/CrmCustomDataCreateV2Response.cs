@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FxiaokeSDK.Response
 {
-    public class CrmDataCreateResponse : BaseResponse
+    public class CrmCustomDataCreateV2Response : BaseResponse
     {
         public string DataId { get; set; }
     }

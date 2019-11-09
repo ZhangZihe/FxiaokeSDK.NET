@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FxiaokeSDK.Request
 {
-    public class CrmObjectListRequest : BaseCgiRequest
+    public class CrmObjectListV2Request : BaseCgiRequest
     {
         /// <summary>
         /// 当前操作人的openUserId
